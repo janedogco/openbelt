@@ -1,0 +1,8 @@
+{
+  "id": "google-gmail",
+  "name": "Gmail",
+  "about": "Mail, threads and labels",
+  "url": "https://gmailmcp.googleapis.com/mcp/v1",
+  "scopes": ["https://www.googleapis.com/auth/gmail.readonly"],
+  "note": "A preview: enroll the Cloud project that owns your OAuth app in Google's Developer Preview Program, and tick Use this client for an AI-powered agent on its client (required from 11 November 2026)."
+}

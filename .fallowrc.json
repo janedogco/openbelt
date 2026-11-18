@@ -1,0 +1,33 @@
+{
+  "$schema": "./node_modules/fallow/schema.json",
+  "minimumVersion": "3.31.0",
+  "entry": [
+    "scripts/**/*.ts",
+    "packages/platform/src/server.ts",
+    "packages/platform/src/runtime/browser-lifeline.ts",
+    "brand/**/*.css",
+    "brand/film/*.js",
+    "www/**/*.{js,css}"
+  ],
+  "ignoreDependencies": [
+    "agent-browser",
+    "@google/design.md",
+    "@oxlint/plugins",
+    "matter-js",
+    "three"
+  ],
+  "rules": {
+    "duplicate-exports": "off",
+    "package-cycle": "off",
+    "require-suppression-reason": "error",
+    "unused-exports": "off",
+    "unused-dev-dependencies": "off"
+  },
+  "ignorePatterns": [
+    "tools/oxlint/anti-slop/**",
+    ".references/**",
+    "packages/platform/starters/**"
+  ],
+  "ignoreBinaries": ["gitleaks", "memory_pressure", "pi", "tailscale"],
+  "usedClassMembers": ["toString"]
+}

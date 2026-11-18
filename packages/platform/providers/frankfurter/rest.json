@@ -1,0 +1,22 @@
+{
+  "id": "frankfurter",
+  "name": "Frankfurter",
+  "about": "Currency exchange rates, from central banks",
+  "url": "https://api.frankfurter.dev/v1",
+  "docs": "https://frankfurter.dev",
+  "signIn": "none",
+  "level": "read",
+  "api": {
+    "kind": "openapi",
+    "spec": "https://api.frankfurter.dev/v1/openapi.json",
+    "test": {
+      "tool": "get_latest",
+      "input": {
+        "base": "USD",
+        "symbols": "EUR"
+      },
+      "expect": "\"EUR\""
+    }
+  },
+  "probed": "2026-10-30"
+}

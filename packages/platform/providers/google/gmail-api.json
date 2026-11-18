@@ -1,0 +1,16 @@
+{
+  "id": "google-gmail-api",
+  "name": "Gmail API",
+  "about": "Sending mail",
+  "url": "https://gmail.googleapis.com",
+  "docs": "https://developers.google.com/workspace/gmail/api/guides",
+  "scopes": ["https://www.googleapis.com/auth/gmail.send"],
+  "level": "all",
+  "api": {
+    "kind": "openapi",
+    "spec": "https://www.googleapis.com/discovery/v1/apis/gmail/v1/rest",
+    "groups": ["gmail.send"]
+  },
+  "note": "Sends mail as the person, and nothing else: reading mail needs a scope Google gives only apps that pass a yearly security review.",
+  "probed": "2026-10-31"
+}

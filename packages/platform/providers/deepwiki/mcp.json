@@ -1,0 +1,11 @@
+{
+  "id": "deepwiki",
+  "name": "DeepWiki",
+  "about": "Docs and answers about public GitHub repositories",
+  "url": "https://mcp.deepwiki.com/mcp",
+  "docs": "https://docs.devin.ai/work-with-devin/deepwiki-mcp",
+  "signIn": "none",
+  "level": "read",
+  "readOnlyTools": ["read_wiki_structure", "read_wiki_contents", "ask_wiki_question"],
+  "probed": "2026-10-28"
+}

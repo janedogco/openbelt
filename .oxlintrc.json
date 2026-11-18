@@ -1,0 +1,164 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  // The fence. When an agent keeps making the same mistake, encode it here.
+  // Every message says what to do instead.
+  "plugins": ["typescript", "unicorn", "oxc", "import", "promise", "node"],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "error",
+    "perf": "warn"
+  },
+  // anti-slop: vendored rules that reject low-evidence patterns (tools/oxlint/anti-slop/UPSTREAM.md).
+  "jsPlugins": [
+    { "name": "anti-slop", "specifier": "./tools/oxlint/anti-slop/index.ts" },
+    { "name": "anti-slop-effect", "specifier": "./tools/oxlint/anti-slop/effect/index.ts" }
+  ],
+  "ignorePatterns": [
+    "dist/**",
+    ".verify/**",
+    ".references/**",
+    "tools/oxlint/anti-slop/**",
+    // The story film (bun run brand film): canvas animation drawn offline into an mp4, never served as code.
+    "brand/film/**",
+    // The starter apps (starters.ts): OpenBelt apps as agents write them (the SDK at /sdk.js, no build), deployed into new
+    // workspaces as they are. check_app proves them (bun run verify starters), not the platform's rules.
+    "packages/platform/starters/**"
+  ],
+  "rules": {
+    "oxc/no-accumulating-spread": "error",
+    "anti-slop/no-array-filter-map": "error",
+    "anti-slop/no-reduce-accumulator-copy": "error",
+    "anti-slop/no-chained-type-assertions": "error",
+    "anti-slop/no-conditional-empty-object-spread": "error",
+    "anti-slop/no-known-value-widening": "error",
+    "anti-slop/no-module-mocking": "error",
+    "anti-slop/no-object-parameters": "error",
+    "anti-slop/no-reflect-apply": "error",
+    "anti-slop/no-reflect-get": "error",
+    "anti-slop/no-runtime-typeof": "error",
+    "anti-slop/no-shape-in-symbol-names": "error",
+    "anti-slop/no-unknown-parameters": "error",
+    "anti-slop/no-unknown-returns": "error",
+    "anti-slop/no-unknown-type-aliases": "error",
+    "anti-slop/no-unsafe-dictionary-type": "error",
+    "anti-slop/no-widen-then-assert": "error",
+    "anti-slop/require-readable-spacing": "error",
+    "anti-slop/require-safety-comment-for-type-assertion": "error",
+    "anti-slop-effect/no-manual-effect-error-tag": "error",
+    "anti-slop-effect/no-manual-tag-comparison": "error",
+    "anti-slop-effect/no-manual-tagged-construction": "error",
+    "anti-slop-effect/no-service-constructor-imports": "error",
+    "anti-slop-effect/prefer-effect-match": "error",
+    "no-console": "error",
+    // Only fires for window.postMessage; openbelt only posts to Workers, which take no origin.
+    "unicorn/require-post-message-target-origin": "off",
+    // It reads any .includes() on the same name as an array's, without types: on a string (a page's
+    // HTML in a check) its --fix makes new Set(text).has(...), which is never true, and bun run fix
+    // applies it silently. A Set where one helps is a review call, not a lint.
+    "unicorn/prefer-set-has": "off",
+    "typescript/no-explicit-any": "error",
+    "typescript/no-non-null-assertion": "error",
+    "typescript/consistent-type-imports": "error",
+    "typescript/no-floating-promises": "error",
+    "typescript/no-misused-promises": "error",
+    "import/no-cycle": "error",
+    "no-restricted-imports": [
+      "error",
+      {
+        "paths": [
+          {
+            "name": "bun:test",
+            "message": "No unit tests in openbelt. Prove behavior against a real instance: scripts/verify/checks/"
+          },
+          {
+            "name": "node:test",
+            "message": "No unit tests in openbelt. Prove behavior against a real instance: scripts/verify/checks/"
+          },
+          {
+            "name": "vitest",
+            "message": "No unit tests in openbelt. Prove behavior against a real instance: scripts/verify/checks/"
+          },
+          {
+            "name": "@jest/globals",
+            "message": "No unit tests in openbelt. Prove behavior against a real instance: scripts/verify/checks/"
+          }
+        ]
+      }
+    ]
+  },
+  "overrides": [
+    {
+      // The platform: the gateway and Durable Objects in Effect v4, on the runtime in src/runtime.
+      // The no-unit-test imports above apply here too.
+      "files": ["packages/platform/**"],
+      "rules": {
+        "node/no-process-env": "error",
+        "no-restricted-globals": [
+          "error",
+          {
+            "name": "Bun",
+            "message": "Platform code reaches the host through src/runtime (the HTTP server, sandboxes, the browser), not Bun directly."
+          }
+        ],
+        "no-restricted-properties": [
+          "error",
+          {
+            "object": "Effect",
+            "property": "runPromise",
+            "message": "The runtime runs the effects (src/runtime): return an Effect."
+          },
+          {
+            "object": "Effect",
+            "property": "runSync",
+            "message": "The runtime runs the effects (src/runtime): return an Effect."
+          },
+          {
+            "object": "Effect",
+            "property": "runFork",
+            "message": "The runtime runs the effects (src/runtime): return an Effect."
+          },
+          {
+            "object": "Effect",
+            "property": "runPromiseExit",
+            "message": "The runtime runs the effects (src/runtime): return an Effect."
+          }
+        ]
+      }
+    },
+    {
+      // The runtime and the process that starts it are where the untyped worlds meet the typed one
+      // (SQLite's worker threads, QuickJS, Chrome, the web's Request): they read the environment, run
+      // effects, and assert types at those edges, each with a SAFETY note saying what holds.
+      "files": [
+        "packages/platform/src/runtime/**",
+        "packages/platform/src/server.ts",
+        "packages/platform/src/platform.ts"
+      ],
+      "rules": {
+        "node/no-process-env": "off",
+        "no-restricted-globals": "off",
+        "no-restricted-properties": "off",
+        "no-console": "off",
+        "eslint/no-await-in-loop": "off",
+        "anti-slop/no-unknown-parameters": "off",
+        "anti-slop/no-unknown-returns": "off",
+        "anti-slop/no-unknown-type-aliases": "off",
+        "anti-slop/no-runtime-typeof": "off",
+        "anti-slop/no-unsafe-dictionary-type": "off",
+        "anti-slop/no-known-value-widening": "off",
+        "anti-slop/no-chained-type-assertions": "off",
+        "anti-slop/no-conditional-empty-object-spread": "off",
+        "anti-slop-effect/no-service-constructor-imports": "off",
+        "typescript/no-unsafe-type-assertion": "off",
+        "typescript/no-base-to-string": "off",
+        "typescript/no-unnecessary-type-parameters": "off",
+        "typescript/no-extraneous-class": "off",
+        "oxc/no-map-spread": "off"
+      }
+    },
+    {
+      "files": ["scripts/**"],
+      "rules": { "no-console": "off" }
+    }
+  ]
+}

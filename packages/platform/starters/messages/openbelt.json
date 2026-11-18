@@ -1,0 +1,16 @@
+{
+  "description": "A live message board people and agents post and reply on",
+  "color": "#7c5cd6",
+  "collections": {
+    "posts": "one doc per post or reply: { text (plain text, up to 2000 chars), parent (the id of the post it replies to, or null for a post) }. Replies are one level deep: a reply's parent is always a post."
+  },
+  "writable": ["posts"],
+  "rules": {
+    "posts": {
+      "read": "anyone",
+      "create": "signedIn && (newDoc.data.parent == null || (get('posts', newDoc.data.parent) != null && get('posts', newDoc.data.parent).data.parent == null))",
+      "update": "doc.author == me && newDoc.data.parent == doc.data.parent",
+      "delete": "doc.author == me"
+    }
+  }
+}

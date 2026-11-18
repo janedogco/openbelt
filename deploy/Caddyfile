@@ -1,0 +1,26 @@
+# HTTPS for every workspace and app host, for `docker compose --profile tls up -d` (compose.yaml). A certificate is issued the first
+# time a name is visited (on demand), and only for names OpenBelt says are its own (/_tls/ask): OPENBELT_HOST (and OPENBELT_BASE_HOST), a workspace that is set up,
+# an app that exists. OPENBELT_TLS=internal uses Caddy's own certificate authority (a test machine with no public name); unset, it is
+# Let's Encrypt, which must reach this machine on ports 80 and 443 under every name.
+{
+	on_demand_tls {
+		ask http://openbelt:{$OPENBELT_PORT:1337}/_tls/ask
+	}
+}
+
+https:// {
+	tls {$OPENBELT_TLS:} {
+		on_demand
+	}
+	# Requests wait while the platform restarts (an upgrade: docker compose up -d), as scripts/deploy/proxy.ts has it for a server.
+	reverse_proxy openbelt:{$OPENBELT_PORT:1337} {
+		lb_try_duration 30s
+		lb_try_interval 100ms
+		health_uri /_health
+		health_interval 250ms
+		health_timeout 1s
+		health_passes 1
+		health_fails 1
+		fail_duration 1s
+	}
+}

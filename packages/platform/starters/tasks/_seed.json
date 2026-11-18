@@ -1,0 +1,31 @@
+{
+  "tasks": [
+    {
+      "data": {
+        "title": "Ask your agent to take the next task",
+        "done": false,
+        "claimedBy": null,
+        "note": null,
+        "doneAt": null
+      }
+    },
+    {
+      "data": {
+        "title": "Add a task of your own",
+        "done": false,
+        "claimedBy": null,
+        "note": null,
+        "doneAt": null
+      }
+    },
+    {
+      "data": {
+        "title": "Ask your agent to add a due date to each task",
+        "done": false,
+        "claimedBy": null,
+        "note": null,
+        "doneAt": null
+      }
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "lib": ["ES2024", "ESNext.TypedArrays"],
+    "types": ["bun"]
+  },
+  "include": ["src/**/*.ts", "providers/*.ts", "providers/*.json"]
+}

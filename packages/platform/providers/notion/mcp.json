@@ -1,0 +1,22 @@
+{
+  "id": "notion",
+  "name": "Notion",
+  "about": "Pages, databases and comments",
+  "url": "https://mcp.notion.com/mcp",
+  "docs": "https://developers.notion.com/docs/mcp",
+  "signIn": "oauth",
+  "issuer": "https://mcp.notion.com",
+  "registration": {
+    "kind": "dcr"
+  },
+  "scopes": ["default"],
+  "credential": "person",
+  "level": "read",
+  "probed": "2026-10-28",
+  "measured": {
+    "on": "2026-10-28",
+    "accessTokenSeconds": 28800,
+    "refreshRotates": true,
+    "replay": "refused-grant-kept"
+  }
+}

@@ -1,0 +1,106 @@
+# One stage of a hosted OpenBelt (prod): the platform on its data directory. The server's front
+# (deploy/compose.front.yaml: Caddy, one for every stage on the machine) sends each stage's hosts to its port and holds requests
+# while a deploy restarts it. scripts/deploy.ts copies this to the server as compose.yaml, writes .env (the image, the secrets, the
+# port) and deploys by stopping the platform and starting the new image on the same data; docs/running.md, "Production", says
+# how. By hand: docker compose -p openbelt-<stage> ... in the directory it deploys to.
+
+x-logging: &logs
+  driver: json-file
+  options:
+    max-size: 50m
+    max-file: "5"
+
+services:
+  openbelt:
+    image: ${OPENBELT_IMAGE:?set OPENBELT_IMAGE}
+    environment:
+      OPENBELT_PORT: "1337"
+      OPENBELT_HOST: ${OPENBELT_HOST:?set OPENBELT_HOST}
+      OPENBELT_BASE_HOST: ${OPENBELT_BASE_HOST:-}
+      # Public apps' domain (<app>--<workspace>.<public host>, docs/running.md "Public apps"): unset, none.
+      OPENBELT_PUBLIC_HOST: ${OPENBELT_PUBLIC_HOST:-}
+      OPENBELT_PUBLIC_APP_WRITES_PER_MINUTE: ${OPENBELT_PUBLIC_APP_WRITES_PER_MINUTE:-120}
+      OPENBELT_PUBLIC_ADDRESS_SHARE: ${OPENBELT_PUBLIC_ADDRESS_SHARE:-25}
+      OPENBELT_PUBLIC_DATA_SHARE: ${OPENBELT_PUBLIC_DATA_SHARE:-50}
+      OPENBELT_DEFAULT_WORKSPACE: ${OPENBELT_DEFAULT_WORKSPACE:-acme}
+      OPENBELT_SANDBOX_IDLE_MB: ${OPENBELT_SANDBOX_IDLE_MB:-128}
+      OPENBELT_ADMIN_TOKEN: ${OPENBELT_ADMIN_TOKEN:?set OPENBELT_ADMIN_TOKEN}
+      OPENBELT_SECRETS_KEY: ${OPENBELT_SECRETS_KEY:?set OPENBELT_SECRETS_KEY}
+      OPENBELT_SESSION_SECRET: ${OPENBELT_SESSION_SECRET:?set OPENBELT_SESSION_SECRET}
+      OPENBELT_UPLOADS: ${OPENBELT_UPLOADS:-off}
+      OPENBELT_RATE_PER_MINUTE: ${OPENBELT_RATE_PER_MINUTE:-3000}
+      OPENBELT_RATE_WRITES_PER_MINUTE: ${OPENBELT_RATE_WRITES_PER_MINUTE:-600}
+      OPENBELT_RATE_IP_EMERGENCY_PER_MINUTE: ${OPENBELT_RATE_IP_EMERGENCY_PER_MINUTE:-30000}
+      OPENBELT_DEPLOYS_PER_HOUR: ${OPENBELT_DEPLOYS_PER_HOUR:-300}
+      OPENBELT_DATA_APP_MB: ${OPENBELT_DATA_APP_MB:-1024}
+      OPENBELT_DATA_WORKSPACE_MB: ${OPENBELT_DATA_WORKSPACE_MB:-10240}
+      OPENBELT_DATA_DISK_FLOOR_MB: ${OPENBELT_DATA_DISK_FLOOR_MB:-1024}
+      OPENBELT_VERSIONS_APP_MB: ${OPENBELT_VERSIONS_APP_MB:-256}
+      OPENBELT_SIGNIN_ALLOW: ${OPENBELT_SIGNIN_ALLOW:-}
+      OPENBELT_MAIL_TOKEN: ${OPENBELT_MAIL_TOKEN:-}
+      OPENBELT_MAIL_ACCOUNT: ${OPENBELT_MAIL_ACCOUNT:-}
+      # The CDN in front of the public host (docs/running.md, "Public apps behind a CDN"): a public app's going live purges its name there.
+      OPENBELT_CDN_TOKEN: ${OPENBELT_CDN_TOKEN:-}
+      OPENBELT_CDN_ZONE: ${OPENBELT_CDN_ZONE:-}
+      OPENBELT_MAIL_FROM: ${OPENBELT_MAIL_FROM:-}
+      # Cloudflare Web Analytics' beacon on the marketing pages alone (docs/running.md): unset, none.
+      OPENBELT_WEB_ANALYTICS: ${OPENBELT_WEB_ANALYTICS:-}
+      # Our own emails, kind=internal in the sign-up funnel (docs/running.md, "The sign-up funnel"): unset, nobody.
+      OPENBELT_INTERNAL_EMAILS: ${OPENBELT_INTERNAL_EMAILS:-}
+      # Continuous copies of the data off the machine (docs/running.md, "Backups"): unset, none.
+      OPENBELT_BACKUP_URL: ${OPENBELT_BACKUP_URL:-}
+      OPENBELT_BACKUP_KEY_ID: ${OPENBELT_BACKUP_KEY_ID:-}
+      OPENBELT_BACKUP_SECRET: ${OPENBELT_BACKUP_SECRET:-}
+      OPENBELT_SIGNIN: ${OPENBELT_SIGNIN:-off}
+      # Sign in with Google on the base host (docs/viewers.md): unset, email codes only.
+      OPENBELT_GOOGLE_CLIENT_ID: ${OPENBELT_GOOGLE_CLIENT_ID:-}
+      OPENBELT_GOOGLE_CLIENT_SECRET: ${OPENBELT_GOOGLE_CLIENT_SECRET:-}
+      OPENBELT_COMMIT: ${OPENBELT_COMMIT:-}
+      # Platform processes under the container's supervisor (runtime/supervisor.ts): "auto" is one per 2 CPUs, at most 4.
+      OPENBELT_PROCESSES: ${OPENBELT_PROCESSES:-auto}
+      OPENBELT_DB_THREADS: ${OPENBELT_DB_THREADS:-4}
+      OPENBELT_DB_TRACE: ${OPENBELT_DB_TRACE:-sampled}
+      OPENBELT_DATA: /data
+      # The front sends it on every request it forwards: what tells the platform a request came through the front door.
+      OPENBELT_FRONT_DOOR_SECRET: ${OPENBELT_FRONT_DOOR_SECRET:?set OPENBELT_FRONT_DOOR_SECRET}
+      # Where its spans, log lines and metrics go (docs/running.md, "Keeping traces and logs"): the front's Grafana
+      # (http://otlp:4318, OPENBELT_TELEMETRY=grafana), another OpenTelemetry backend, or none (empty). The deploy names the stage
+      # in OTEL_RESOURCE_ATTRIBUTES (deployment.environment.name), so every stage on a server can share one Grafana.
+      OTEL_EXPORTER_OTLP_ENDPOINT: ${OTEL_EXPORTER_OTLP_ENDPOINT:-}
+      OTEL_EXPORTER_OTLP_HEADERS: ${OTEL_EXPORTER_OTLP_HEADERS:-}
+      OTEL_EXPORTER_OTLP_PROTOCOL: ${OTEL_EXPORTER_OTLP_PROTOCOL:-}
+      OTEL_SERVICE_NAME: ${OTEL_SERVICE_NAME:-}
+      OTEL_RESOURCE_ATTRIBUTES: ${OTEL_RESOURCE_ATTRIBUTES:-}
+    networks:
+      - default
+      # The front's OTLP proxy is "otlp" on it (deploy/compose.front.yaml); Grafana itself isn't.
+      - telemetry
+    volumes:
+      # Every object's SQLite: a directory beside this file, so a backup is bun run data backup (docs/running.md, "Backups").
+      - ./data:/data
+      # The deploy runs its smoke test inside the platform it just started (scripts/deploy/smoke.ts --via): its files, read-only,
+      # under the platform's package so they find its node_modules.
+      - ./tools:/app/packages/platform/deploy-tools:ro
+    # Only the front, on this machine, reaches it: each stage on a port of its own.
+    ports:
+      - "127.0.0.1:${OPENBELT_HOST_PORT:-1401}:1337"
+    # Bun would be the first process, and doesn't reap check_app's Chrome children: tini does.
+    init: true
+    # The platform, its sandboxes and check_app's browsers together: a runaway among them stops here, not by the machine running out.
+    # 6 GB of an 8 GB machine: the front and Docker use about 1 GB beside it.
+    mem_limit: ${OPENBELT_MEMORY_LIMIT:-6g}
+    # Docker's default seccomp profile, and user namespaces for check_app's Chrome's own sandbox (deploy/seccomp.json, put beside this
+    # file by scripts/deploy.ts).
+    security_opt:
+      - seccomp=./seccomp.json
+    restart: unless-stopped
+    # It stops within about 22 s (runtime/shutdown.ts): its requests finish and its objects go to sleep; a kill before then is a
+    # crash, which loses nothing acknowledged (docs/running.md, "Stopping and crashes").
+    stop_grace_period: 30s
+    logging: *logs
+
+networks:
+  # Shared with the server's front (deploy/compose.front.yaml), whose OTLP proxy is "otlp" on it; a deploy creates it.
+  telemetry:
+    name: openbelt-telemetry
+    external: true

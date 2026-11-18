@@ -1,0 +1,36 @@
+{
+  "id": "petstore",
+  "name": "Swagger Petstore",
+  "about": "A sandbox pet store that takes writes",
+  "url": "https://petstore3.swagger.io/api/v3",
+  "docs": "https://petstore3.swagger.io",
+  "signIn": "none",
+  "level": "read",
+  "api": {
+    "kind": "openapi",
+    "spec": "https://petstore3.swagger.io/api/v3/openapi.json",
+    "fixes": [
+      {
+        "tool": "addPet",
+        "require": ["body.id", "body.name"]
+      },
+      {
+        "tool": "updatePet",
+        "require": ["body.id", "body.name"]
+      },
+      {
+        "tool": "logoutUser",
+        "readOnly": false
+      }
+    ],
+    "test": {
+      "tool": "findPetsByStatus",
+      "input": {
+        "status": "available"
+      },
+      "expect": "\"status\":\"available\""
+    }
+  },
+  "probed": "2026-10-30",
+  "note": "A public sandbox anyone can write to: for trying apps that add and change things. Its server needs an id on a new pet, though its spec doesn't say."
+}

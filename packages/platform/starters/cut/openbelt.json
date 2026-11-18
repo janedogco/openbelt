@@ -1,0 +1,22 @@
+{
+  "description": "Video editor: trim, split and layer clips, add text, music, transitions, filters and keyframes, then export MP4, WebM, GIF or audio",
+  "color": "#ffd23f",
+  "collections": {
+    "projects": "one doc per video project, id p…: { name, created, updated (ms), scene: { width, height, fps, background }, layers: [{ id, name, hidden, muted, locked }] (first is on top), clips: [{ id, kind: video|audio|image|text|shape|color, layerId, mediaId, start, duration, in, speed (s), props: { x, y, scale, rotation, opacity, volume, fit, crop, ... }, kf: { prop: [{ t, v }] }, fx, tin, tout, text, shape }], markers, thumb (data URL) }",
+    "media": "one doc per imported file, id m…: { project, name, kind: video|audio|image, size, duration, width, height, hasAudio, thumb (data URL), file: { id, url, name, type, size }, created }"
+  },
+  "rules": {
+    "projects": {
+      "read": "doc.author == me",
+      "create": "signedIn",
+      "update": "doc.author == me",
+      "delete": "doc.author == me"
+    },
+    "media": {
+      "read": "doc.author == me",
+      "create": "signedIn",
+      "update": "doc.author == me",
+      "delete": "doc.author == me"
+    }
+  }
+}

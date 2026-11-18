@@ -1,0 +1,23 @@
+{
+  "id": "weather-gov",
+  "name": "National Weather Service",
+  "about": "US forecasts, alerts and observations",
+  "url": "https://api.weather.gov",
+  "docs": "https://www.weather.gov/documentation/services-web-api",
+  "signIn": "none",
+  "level": "read",
+  "api": {
+    "kind": "openapi",
+    "spec": "https://api.weather.gov/openapi.json",
+    "test": {
+      "tool": "point",
+      "input": {
+        "latitude": "40.7128",
+        "longitude": "-74.006"
+      },
+      "expect": "OKX"
+    }
+  },
+  "probed": "2026-10-30",
+  "note": "US only. A forecast is two calls: point (a latitude and longitude) names the office and grid, then gridpoint_forecast."
+}

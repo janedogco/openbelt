@@ -1,0 +1,24 @@
+{
+  "description": "Shared tasks for people and agents: add, take, check off",
+  "color": "#2f6fed",
+  "collections": {
+    "tasks": "one doc per task: { title, done (bool), claimedBy (email of whoever is on it, or null), note (one line on what was done, or null), doneAt (ms, or null) }"
+  },
+  "writable": ["tasks"],
+  "rules": {
+    "tasks": {
+      "read": "anyone",
+      "create": "signedIn",
+      "update": "signedIn",
+      "delete": "doc.author == me"
+    }
+  },
+  "functions": {
+    "claim": "Claims the oldest open task nobody has taken, for the caller. input: none; returns { task: { id, title } }, or { task: null } when none is left. Safe when several agents call at once.",
+    "tidy": {
+      "description": "Deletes tasks done more than 7 days ago. input: none; returns { deleted }",
+      "internal": true
+    }
+  },
+  "schedules": { "tidy": { "cron": "0 3 * * *" } }
+}

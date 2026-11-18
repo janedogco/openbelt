@@ -1,0 +1,22 @@
+{
+  "id": "linear",
+  "name": "Linear",
+  "about": "Issues, projects and cycles",
+  "url": "https://mcp.linear.app/mcp",
+  "docs": "https://linear.app/docs/mcp",
+  "signIn": "oauth",
+  "issuer": "https://mcp.linear.app",
+  "registration": {
+    "kind": "dcr"
+  },
+  "scopes": ["read"],
+  "credential": "person",
+  "level": "read",
+  "probed": "2026-10-28",
+  "measured": {
+    "on": "2026-10-28",
+    "accessTokenSeconds": 86400,
+    "refreshRotates": true,
+    "replay": "refused-grant-kept"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "id": "atlassian",
+  "name": "Jira and Confluence",
+  "maker": "Atlassian",
+  "about": "Atlassian's Jira issues and Confluence pages",
+  "url": "https://mcp.atlassian.com/v2/mcp",
+  "docs": "https://support.atlassian.com/rovo/docs/getting-started-with-the-atlassian-remote-mcp-server/",
+  "signIn": "oauth",
+  "issuer": "https://auth.atlassian.com/VCeDsk8ZHncYF1g234fKtc4lNipbBhu3",
+  "registration": {
+    "kind": "dcr"
+  },
+  "scopes": [
+    "read:me",
+    "read:account",
+    "offline_access",
+    "read:jira:agent-interface",
+    "search:jira:agent-interface",
+    "read:confluence:agent-interface",
+    "search:confluence:agent-interface",
+    "search:rovo:agent-interface"
+  ],
+  "credential": "person",
+  "level": "read",
+  "probed": "2026-10-28"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "stripe",
+  "name": "Stripe",
+  "about": "Customers, payments and invoices",
+  "url": "https://mcp.stripe.com",
+  "docs": "https://docs.stripe.com/mcp",
+  "signIn": "oauth",
+  "issuer": "https://access.stripe.com/mcp",
+  "registration": {
+    "kind": "dcr"
+  },
+  "scopes": ["mcp"],
+  "credential": "workspace",
+  "level": "read",
+  "probed": "2026-10-28"
+}

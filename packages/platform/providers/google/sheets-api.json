@@ -1,0 +1,28 @@
+{
+  "id": "google-sheets-api",
+  "name": "Google Sheets API",
+  "about": "Spreadsheets, their values and formatting",
+  "url": "https://sheets.googleapis.com",
+  "docs": "https://developers.google.com/workspace/sheets/api/guides/concepts",
+  "scopes": ["https://www.googleapis.com/auth/spreadsheets.readonly"],
+  "api": {
+    "kind": "openapi",
+    "spec": "https://www.googleapis.com/discovery/v1/apis/sheets/v4/rest",
+    "fixes": [
+      {
+        "tool": "sheets_spreadsheets_getByDataFilter",
+        "readOnly": true
+      },
+      {
+        "tool": "sheets_spreadsheets_values_batchGetByDataFilter",
+        "readOnly": true
+      },
+      {
+        "tool": "sheets_spreadsheets_developerMetadata_search",
+        "readOnly": true
+      }
+    ]
+  },
+  "note": "Reaches any sheet the person can open, by its ID (the part of its link after /d/). Set everyone's level to all, and the first change asks Google for that.",
+  "probed": "2026-10-31"
+}

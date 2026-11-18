@@ -1,0 +1,24 @@
+{
+  "id": "supabase",
+  "name": "Supabase",
+  "about": "Projects, databases and logs",
+  "url": "https://mcp.supabase.com/mcp",
+  "docs": "https://supabase.com/docs/guides/getting-started/mcp",
+  "signIn": "oauth",
+  "issuer": "https://api.supabase.com",
+  "registration": {
+    "kind": "dcr"
+  },
+  "scopes": [
+    "organizations:read",
+    "projects:read",
+    "database:read",
+    "analytics:read",
+    "edge_functions:read",
+    "environment:read",
+    "storage:read"
+  ],
+  "credential": "person",
+  "level": "read",
+  "probed": "2026-10-28"
+}

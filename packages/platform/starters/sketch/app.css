@@ -1,0 +1,112 @@
+main {
+  max-width: 960px;
+}
+.right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+#people {
+  display: flex;
+  margin-right: 4px;
+}
+#people span {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  margin-left: -6px;
+  box-shadow: 0 0 0 2px var(--bg);
+}
+#tools {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+.grow {
+  flex: 1;
+}
+#colors,
+#sizes {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  background: #ebe8e1;
+  border-radius: 10px;
+}
+#colors button,
+#sizes button {
+  width: 32px;
+  height: 32px;
+  border-radius: 7px;
+  display: grid;
+  place-items: center;
+  transition:
+    background 0.12s,
+    transform 0.06s;
+}
+#colors button:hover,
+#sizes button:hover {
+  background: #dcd8cf;
+}
+#colors button:active,
+#sizes button:active {
+  transform: scale(0.9);
+}
+#colors button.on,
+#sizes button.on {
+  background: #fffdf8;
+}
+#colors i {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+}
+#sizes i {
+  border-radius: 50%;
+  background: #1d1b18;
+}
+canvas {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4/3;
+  background: #fffdf8;
+  border-radius: var(--radius);
+  touch-action: none;
+  cursor: crosshair;
+}
+@media (max-width: 520px) {
+  .grow {
+    display: none;
+  }
+  #tools {
+    gap: 6px;
+    flex-wrap: nowrap;
+  }
+  #colors,
+  #sizes {
+    gap: 2px;
+    padding: 3px;
+  }
+  #colors button,
+  #sizes button {
+    width: 26px;
+    height: 26px;
+  }
+  #colors i {
+    width: 16px;
+    height: 16px;
+  }
+  #tools .btn.sm {
+    padding: 0 10px;
+  }
+  #undo {
+    margin-left: auto;
+  }
+}

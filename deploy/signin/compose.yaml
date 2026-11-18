@@ -1,0 +1,80 @@
+# People sign in with the workspace's identity provider (OIDC: Okta, Entra ID, Google, Keycloak, Dex...) before OpenBelt shows
+# them anything: oauth2-proxy signs them in, Caddy asks it about every request and tells OpenBelt who it is. docs/viewers.md, "Sign-in
+# on a public host". On top of compose.yaml, with its tls profile:
+#
+#   docker compose -f compose.yaml -f deploy/signin/compose.yaml --profile tls up -d
+#
+# with, beside OPENBELT_ADMIN_TOKEN, OPENBELT_SECRETS_KEY and OPENBELT_HOST:
+#   OPENBELT_FRONT_DOOR_SECRET  openssl rand -hex 32: how OpenBelt knows a request came through this proxy
+#   OPENBELT_SSO_ISSUER         the provider's issuer URL (https://<you>.okta.com, https://login.microsoftonline.com/<tenant>/v2.0, ...)
+#   OPENBELT_SSO_CLIENT_ID      an OIDC web app made there, redirecting to https://<OPENBELT_HOST>/oauth2/callback
+#   OPENBELT_SSO_CLIENT_SECRET  its secret
+#   OPENBELT_SSO_COOKIE_SECRET  openssl rand -hex 16: seals the sign-in cookie
+#   OPENBELT_SSO_EMAIL_DOMAIN   who may sign in, by email domain (default: anyone the provider signs in)
+
+services:
+  openbelt:
+    environment:
+      OPENBELT_SIGNIN: tailscale
+      OPENBELT_FRONT_DOOR_SECRET: ${OPENBELT_FRONT_DOOR_SECRET:?set OPENBELT_FRONT_DOOR_SECRET (openssl rand -hex 32)}
+      # check_app's browser can't sign in: it reaches OpenBelt's names through Caddy's listener for it, which only this network reaches.
+      OPENBELT_CHECK_DOOR: caddy:8443
+    # Only through the proxy: OpenBelt's own port isn't published at all.
+    ports: !reset []
+
+  caddy:
+    depends_on: [openbelt, oauth2-proxy]
+    environment:
+      OPENBELT_FRONT_DOOR_SECRET: ${OPENBELT_FRONT_DOOR_SECRET:?set OPENBELT_FRONT_DOOR_SECRET (openssl rand -hex 32)}
+    volumes: !override
+      - ./deploy/signin/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+
+  oauth2-proxy:
+    image: quay.io/oauth2-proxy/oauth2-proxy:v7.15.5
+    profiles: [tls]
+    command:
+      - --alpha-config=/etc/oauth2-proxy/alpha.yaml
+      - --redirect-url=https://${OPENBELT_HOST}/oauth2/callback
+      - --cookie-secret=${OPENBELT_SSO_COOKIE_SECRET:?set OPENBELT_SSO_COOKIE_SECRET (openssl rand -hex 16)}
+      # One sign-in for every workspace and app host.
+      - --cookie-domain=.${OPENBELT_HOST}
+      - --whitelist-domain=.${OPENBELT_HOST}
+      - --cookie-secure=true
+      - --cookie-samesite=lax
+      - --email-domain=${OPENBELT_SSO_EMAIL_DOMAIN:-*}
+      - --reverse-proxy=true
+      - --skip-provider-button=true
+    configs:
+      - source: oauth2-proxy
+        target: /etc/oauth2-proxy/alpha.yaml
+    restart: unless-stopped
+
+configs:
+  oauth2-proxy:
+    content: |
+      server:
+        bindAddress: 0.0.0.0:4180
+      upstreamConfig:
+        upstreams:
+          - id: signed-in
+            path: /
+            static: true
+            staticCode: 202
+      # Who is viewing, for Caddy to pass on: their email, and their name (the name claim; v7.15 or later).
+      injectResponseHeaders:
+        - name: X-Auth-Request-Email
+          values: [{ claimSource: { claim: email } }]
+        - name: X-Auth-Request-Name
+          values: [{ claimSource: { claim: name } }]
+      providers:
+        - id: sso
+          provider: oidc
+          clientID: ${OPENBELT_SSO_CLIENT_ID:?set OPENBELT_SSO_CLIENT_ID}
+          clientSecret: ${OPENBELT_SSO_CLIENT_SECRET:?set OPENBELT_SSO_CLIENT_SECRET}
+          scope: openid email profile
+          additionalClaims: [name]
+          oidcConfig:
+            issuerURL: ${OPENBELT_SSO_ISSUER:?set OPENBELT_SSO_ISSUER}
+            emailClaim: email
+            audienceClaims: [aud]

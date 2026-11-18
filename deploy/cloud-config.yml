@@ -1,0 +1,133 @@
+#cloud-config
+# An OpenBelt server (prod), secured before anything runs on it. Based on Hetzner's "basic cloud config" (an admin user
+# with a key, no root or password logins, SSH on 2222, fail2ban, ufw), plus what a public Docker host needs. docs/running.md, "Prod:
+# a server with a public address", says how a machine is made from it; __SSH_KEY__ is the admin's public key, put in when it's made:
+#
+#   sed "s|__SSH_KEY__|$(cat ~/.ssh/<key>.pub)|" deploy/cloud-config.yml > /tmp/user-data.yml
+#   Vultr:   POST /v2/instances {"user_data": "<base64 of it>", "firewall_group_id": ..., "backups": "enabled", ...}
+#   Hetzner: hcloud server create --image ubuntu-24.04 --firewall openbelt-<stage> --user-data-from-file /tmp/user-data.yml ...
+#
+# Then, from the address the provider's firewall lets in on 2222 for now: ssh holu@<ip> -p 2222, `sudo tailscale up --ssh
+# --advertise-tags=tag:openbelt-<stage> --hostname=openbelt-<stage>`, `sudo ufw allow in on tailscale0 to any port 2222
+# proto tcp && sudo ufw delete allow 2222/tcp`, and remove the provider's SSH rule: SSH is the tailnet's alone after.
+#
+# Layers, outside in:
+#   1. The provider's firewall (openbelt-<stage>): only 80/tcp, 443/tcp+udp, ICMP and Tailscale's 41641/udp reach the machine.
+#      Docker writes its own iptables rules and can publish a port past ufw; nothing gets past this one.
+#   2. ufw: the same, and SSH (2222) only on tailscale0 once the machine is on the tailnet.
+#   3. sshd: keys only, holu only, no root, no forwarding. CI and deploys come in as `deploy` over Tailscale SSH, which the
+#      tailnet policy allows (docs/running.md) and which doesn't use sshd.
+#   4. deploy: runs Docker and nothing else (no sudo, no password, no key).
+#   5. unattended-upgrades: security updates daily, rebooting at 04:00 UTC when one needs it.
+
+ssh_pwauth: false
+disable_root: true
+
+users:
+  - name: holu
+    groups: users, admin
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    shell: /bin/bash
+    lock_passwd: true
+    ssh_authorized_keys:
+      - __SSH_KEY__
+  - name: deploy
+    shell: /bin/bash
+    lock_passwd: true
+
+package_update: true
+package_upgrade: true
+packages:
+  - ca-certificates
+  - curl
+  - jq
+  - fail2ban
+  - ufw
+  - unattended-upgrades
+  - docker.io
+  - docker-compose-v2
+
+write_files:
+  - path: /etc/ssh/sshd_config.d/99-hardening.conf
+    content: |
+      PermitRootLogin no
+      PasswordAuthentication no
+      Port 2222
+      KbdInteractiveAuthentication no
+      ChallengeResponseAuthentication no
+      MaxAuthTries 3
+      AllowTcpForwarding no
+      X11Forwarding no
+      AllowAgentForwarding no
+      AuthorizedKeysFile .ssh/authorized_keys
+      AllowUsers holu
+  - path: /etc/fail2ban/jail.local
+    content: |
+      [sshd]
+      enabled = true
+      port = 2222
+      banaction = iptables-multiport
+  - path: /etc/apt/apt.conf.d/52openbelt-unattended
+    content: |
+      Unattended-Upgrade::Automatic-Reboot "true";
+      Unattended-Upgrade::Automatic-Reboot-Time "04:00";
+      Unattended-Upgrade::Remove-Unused-Dependencies "true";
+  - path: /etc/apt/apt.conf.d/20auto-upgrades
+    content: |
+      APT::Periodic::Update-Package-Lists "1";
+      APT::Periodic::Unattended-Upgrade "1";
+  - path: /etc/docker/daemon.json
+    content: |
+      {
+        "log-driver": "json-file",
+        "log-opts": { "max-size": "50m", "max-file": "5" },
+        "live-restore": true
+      }
+  - path: /etc/sysctl.d/90-openbelt.conf
+    content: |
+      # Ignore ICMP redirects and source-routed packets; log martians.
+      net.ipv4.conf.all.accept_redirects = 0
+      net.ipv4.conf.default.accept_redirects = 0
+      net.ipv6.conf.all.accept_redirects = 0
+      net.ipv4.conf.all.send_redirects = 0
+      net.ipv4.conf.all.accept_source_route = 0
+      net.ipv4.conf.all.log_martians = 1
+      # Caddy's HTTP/3 (QUIC) buffers.
+      net.core.rmem_max = 7500000
+      net.core.wmem_max = 7500000
+
+runcmd:
+  - sysctl --system
+  # 2 GB of swap, so a burst doesn't kill a process.
+  - [
+      "sh",
+      "-c",
+      'if [ ! -f /swapfile ]; then fallocate -l 2G /swapfile && chmod 600 /swapfile && mkswap /swapfile && swapon /swapfile && echo "/swapfile none swap sw 0 0" >> /etc/fstab; fi',
+    ]
+  - usermod -aG docker deploy
+  - systemctl enable --now docker fail2ban unattended-upgrades
+  - ufw default deny incoming
+  - ufw default allow outgoing
+  - ufw allow 80/tcp
+  - ufw allow 443/tcp
+  - ufw allow 443/udp
+  - ufw allow 41641/udp
+  # SSH from anywhere until Tailscale is up (the cloud firewall limits it to one address meanwhile); then only on tailscale0.
+  - ufw allow 2222/tcp
+  # Some providers' images (Vultr's) open 22 in ufw; sshd isn't there.
+  - ufw delete allow 22/tcp || true
+  - ufw delete allow 22 || true
+  - ufw --force enable
+  - [
+      "sh",
+      "-c",
+      "curl -fsSL --retry 5 --retry-delay 2 --retry-connrefused https://tailscale.com/install.sh | sh",
+    ]
+  - systemctl restart ssh
+
+final_message: "openbelt server ready after $UPTIME seconds"
+power_state:
+  mode: reboot
+  message: Rebooting after setup
+  timeout: 30
+  condition: True

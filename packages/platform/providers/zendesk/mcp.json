@@ -1,0 +1,17 @@
+{
+  "id": "zendesk",
+  "name": "Zendesk",
+  "about": "Tickets, users and help center",
+  "url": "https://mcp.zendesk.com/mcp",
+  "docs": "https://developer.zendesk.com/",
+  "signIn": "oauth",
+  "issuer": "https://mcp.zendesk.com/mcp/oauth",
+  "registration": {
+    "kind": "cimd"
+  },
+  "scopes": ["read"],
+  "credential": "person",
+  "level": "read",
+  "probed": "2026-10-28",
+  "note": "Connect it from your workspace's https address: Zendesk reads OpenBelt's client metadata document there."
+}

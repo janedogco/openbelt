@@ -1,0 +1,10 @@
+{
+  "description": "A shared canvas everyone draws on at once",
+  "color": "#e0457b",
+  "collections": {
+    "strokes": "one doc per stroke: { color (hex), size (line width in canvas units, 5 thin or 14 thick), points: [[x, y], ...] } on a 1000 x 750 canvas, (0, 0) top left"
+  },
+  "rules": {
+    "strokes": { "read": "anyone", "create": "signedIn", "update": "nobody", "delete": "signedIn" }
+  }
+}

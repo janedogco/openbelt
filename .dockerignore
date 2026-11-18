@@ -1,0 +1,23 @@
+# Built here or by the image's own cli stage, never sent as context.
+cli/target
+cli/dist
+**/node_modules
+.verify
+.dev
+.git
+.references
+.film
+**/.env
+**/.env.*
+**/*.pem
+**/*.key
+**/*.p12
+**/*.pfx
+**/id_rsa
+**/id_ed25519
+**/*.sqlite*
+**/*.db
+**/*.db-wal
+**/*.db-shm
+**/*.har
+**/*.log

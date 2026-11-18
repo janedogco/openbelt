@@ -1,0 +1,22 @@
+{
+  "id": "countries",
+  "name": "Countries",
+  "about": "Countries, continents and languages",
+  "url": "https://countries.trevorblades.com",
+  "docs": "https://github.com/trevorblades/countries",
+  "signIn": "none",
+  "level": "read",
+  "api": {
+    "kind": "graphql",
+    "groups": ["query"],
+    "test": {
+      "tool": "country",
+      "input": {
+        "code": "JP",
+        "select": "name capital currency"
+      },
+      "expect": "Tokyo"
+    }
+  },
+  "probed": "2026-10-30"
+}

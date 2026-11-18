@@ -1,0 +1,3 @@
+[install]
+# Pin exact versions: oxfmt is 0.x, and scripts/brand.ts uses Bun.WebView/Bun.Image, which are experimental.
+exact = true

@@ -1,0 +1,10 @@
+{
+  "id": "cloudflare-docs",
+  "name": "Cloudflare docs",
+  "about": "Search Cloudflare's developer documentation",
+  "url": "https://docs.mcp.cloudflare.com/mcp",
+  "docs": "https://developers.cloudflare.com/agents/model-context-protocol/mcp-servers-for-cloudflare/",
+  "signIn": "none",
+  "level": "read",
+  "probed": "2026-10-28"
+}

@@ -1,0 +1,24 @@
+{
+  "extends": "../tsconfig.base.json",
+  "include": [
+    ".",
+    "../packages/platform/src/apis.ts",
+    "../packages/platform/src/cron.ts",
+    "../packages/platform/src/docs.ts",
+    "../packages/platform/src/contracts.ts",
+    "../packages/platform/src/hosts.ts",
+    "../packages/platform/src/model.ts",
+    "../packages/platform/src/oauth-wire.ts",
+    "../packages/platform/src/oauth-client.ts",
+    "../packages/platform/src/oauth-discovery.ts",
+    "../packages/platform/src/outbound.ts",
+    "../packages/platform/src/providers.ts",
+    "../packages/platform/providers/*.ts",
+    "../packages/platform/providers/*/*.json",
+    "../packages/platform/src/rules.ts",
+    "../packages/platform/src/starters.ts",
+    "../packages/platform/src/runtime/*.ts",
+    "../packages/platform/src/upstream.ts",
+    "../packages/platform/src/words.ts"
+  ]
+}

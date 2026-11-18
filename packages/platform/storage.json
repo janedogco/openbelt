@@ -1,0 +1,155 @@
+{
+  "objects": ["ApexDO", "AppDO", "McpDO", "WorkspaceDO"],
+  "tables": [
+    "__jobs",
+    "__kv",
+    "aggregate_defs_*",
+    "aggregate_values_*",
+    "apex_members",
+    "apex_workspaces",
+    "api_tokens",
+    "app_asks",
+    "app_consents",
+    "app_indexed",
+    "app_opens",
+    "app_users",
+    "app_words",
+    "apps",
+    "blobs",
+    "browser_workspaces",
+    "call_tree_settled",
+    "call_trees",
+    "code_asks",
+    "connection_calls",
+    "connection_credentials",
+    "connection_icons",
+    "connection_levels",
+    "connection_oauth",
+    "connection_own",
+    "connection_signins",
+    "connection_tool_marks",
+    "connection_tools",
+    "connections",
+    "data_usage",
+    "directory",
+    "docs_*",
+    "environment_apps",
+    "environments",
+    "feedback",
+    "file_usage",
+    "files",
+    "group_members",
+    "groups",
+    "join_asks",
+    "laters",
+    "level_asks",
+    "login_codes",
+    "login_google",
+    "login_google_others",
+    "login_parents",
+    "login_sessions",
+    "login_tickets",
+    "logs",
+    "oauth_clients",
+    "oauth_codes",
+    "oauth_consents",
+    "oauth_devices",
+    "oauth_grants",
+    "oauth_pending",
+    "oauth_tokens",
+    "workspace_current",
+    "workspace_ids",
+    "workspace_names",
+    "people",
+    "push_apps",
+    "push_devices",
+    "run_keys",
+    "runs",
+    "schedules",
+    "scim_log",
+    "scim_tokens",
+    "secrets",
+    "shot",
+    "signin_clients",
+    "tool_calls",
+    "trial_starts",
+    "usage_days",
+    "usage_openers",
+    "usage_people",
+    "usage_sources",
+    "versions",
+    "visits",
+    "wakes"
+  ],
+  "moved": [
+    {
+      "name": "tokens",
+      "to": "api_tokens",
+      "why": "people: each token's user became a person, and their tokens moved to api_tokens (people.ts, once, on WorkspaceDO's start), then tokens was dropped"
+    },
+    {
+      "name": "OrgDO",
+      "to": "WorkspaceDO",
+      "why": "workspace cutover: runtime/workspace-upgrade.ts migrates existing storage before platform processes start; IDs, hosts, and data are preserved"
+    },
+    {
+      "name": "apex_orgs",
+      "to": "apex_workspaces",
+      "why": "workspace cutover: runtime/workspace-upgrade.ts migrates existing storage before platform processes start; IDs, hosts, and data are preserved"
+    },
+    {
+      "name": "org_names",
+      "to": "workspace_names",
+      "why": "workspace cutover: runtime/workspace-upgrade.ts migrates existing storage before platform processes start; IDs, hosts, and data are preserved"
+    },
+    {
+      "name": "org_current",
+      "to": "workspace_current",
+      "why": "workspace cutover: runtime/workspace-upgrade.ts migrates existing storage before platform processes start; IDs, hosts, and data are preserved"
+    },
+    {
+      "name": "org_ids",
+      "to": "workspace_ids",
+      "why": "workspace cutover: runtime/workspace-upgrade.ts migrates existing storage before platform processes start; IDs, hosts, and data are preserved"
+    },
+    {
+      "name": "browser_orgs",
+      "to": "browser_workspaces",
+      "why": "workspace cutover: runtime/workspace-upgrade.ts migrates existing storage before platform processes start; IDs, hosts, and data are preserved"
+    }
+  ],
+  "dropped": [
+    {
+      "name": "__meta",
+      "why": "the Rivet runtime's note of when an object's engine alarm was set; with the engine gone, an object's wake-up is a row in its process's wake file (runtime/actor.ts, the table wakes), and __meta is left unread"
+    },
+    {
+      "name": "views",
+      "why": "#57: when each person last opened each app, only for the gallery's New to you and Updated since you opened it, which the gallery no longer says; WorkspaceDO drops the table on start"
+    },
+    {
+      "name": "SiteDO",
+      "why": "#24: sites became apps (AppDO), a hard cut: every app's files and data were dropped"
+    },
+    {
+      "name": "sites",
+      "why": "#24: WorkspaceDO's app registry is apps now, a hard cut"
+    },
+    {
+      "name": "environment_sites",
+      "why": "#24: WorkspaceDO's preview environment members are environment_apps now, a hard cut"
+    },
+    {
+      "name": "connection_clients",
+      "why": "oauth-engine: OpenBelt registers once per authorization server and workspace host (signin_clients), with that registration's own redirect URI. Only the unreleased OAuth branch had this table (never on main, staging or prod): a sign-in made with it is refused on its next refresh, saying to connect again"
+    },
+    {
+      "name": "access_checks",
+      "why": "Access's saved checks (answers rechecked on each visit) went with the Access page: Activity lists the calls themselves, and Check access answers one at a time. WorkspaceDO drops the table on start"
+    },
+    {
+      "name": "directory.tags",
+      "why": "App tags were removed. Directory.open drops this column on startup; existing version files stay content-addressed and unchanged, and new openbelt.json files reject tags as an unknown key."
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "name": "@openbelt/platform",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "@jitl/quickjs-ng-wasmfile-release-sync": "0.32.0",
+    "aws4fetch": "1.0.20",
+    "effect": "4.0.5",
+    "playwright-core": "1.65.0",
+    "quickjs-emscripten-core": "0.32.0",
+    "sucrase": "3.35.1",
+    "yaml": "2.9.1"
+  }
+}

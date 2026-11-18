@@ -1,0 +1,21 @@
+# gitleaks (pre-commit on staged changes, bun run check on publishable history and the working tree): gitleaks' own rules, minus the
+# made-up keys the verify checks and skills use. Allow a value here, never a whole file, so a real key added next to a
+# fixture still fails.
+[extend]
+useDefault = true
+
+[[rules]]
+id = "openbelt-person-token"
+description = "OpenBelt person API token"
+regex = '''\bpr_[a-f0-9]{32,}\b'''
+keywords = ["pr_"]
+
+[[allowlists]]
+description = "fixture keys in scripts/verify/checks and the verify skills"
+regexes = [
+  '''^wx_live_9f3k2a7$''',
+  '''^mk_live_Qz81vLp0Wm4tRx7c$''',
+  '''^Xk9\+Lm2/Qr7\+Zt4\+Wv8=$''',
+  '''^tok-alice-5b21e8$''',
+  '''^verify-admin-token$''',
+]

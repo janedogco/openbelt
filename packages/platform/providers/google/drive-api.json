@@ -1,0 +1,16 @@
+{
+  "id": "google-drive-api",
+  "name": "Google Drive API",
+  "about": "Files made through OpenBelt",
+  "url": "https://www.googleapis.com/drive/v3",
+  "docs": "https://developers.google.com/workspace/drive/api/guides/about-sdk",
+  "scopes": ["https://www.googleapis.com/auth/drive.file"],
+  "level": "all",
+  "api": {
+    "kind": "openapi",
+    "spec": "https://www.googleapis.com/discovery/v1/apis/drive/v3/rest",
+    "groups": ["drive.file"]
+  },
+  "note": "Sees only files made through OpenBelt (with Sheets and Docs too), not the rest of the person's Drive: reading all of it needs a scope Google gives only apps that pass a yearly security review.",
+  "probed": "2026-10-31"
+}

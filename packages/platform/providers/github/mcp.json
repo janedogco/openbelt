@@ -1,0 +1,17 @@
+{
+  "id": "github",
+  "name": "GitHub",
+  "about": "Repositories, issues and pull requests",
+  "url": "https://api.githubcopilot.com/mcp/",
+  "docs": "https://github.com/github/github-mcp-server",
+  "signIn": "oauth",
+  "issuer": "https://github.com/login/oauth",
+  "registration": {
+    "kind": "admin",
+    "registerAt": "https://github.com/settings/applications/new"
+  },
+  "scopes": ["read:user", "read:org"],
+  "credential": "person",
+  "level": "read",
+  "probed": "2026-10-28"
+}

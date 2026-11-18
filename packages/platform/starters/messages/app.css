@@ -1,0 +1,143 @@
+#compose {
+  margin-bottom: 24px;
+}
+#compose textarea {
+  resize: vertical;
+  min-height: 68px;
+  display: block;
+}
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+#posts {
+  display: grid;
+  gap: 10px;
+}
+article {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 14px;
+}
+.item {
+  display: flex;
+  gap: 12px;
+}
+.avatar {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-weight: 600;
+  font-size: 14px;
+}
+.reply .avatar {
+  width: 26px;
+  height: 26px;
+  font-size: 12px;
+}
+.body {
+  flex: 1;
+  min-width: 0;
+}
+.head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 24px;
+}
+.head b {
+  font-weight: 600;
+  font-size: 15px;
+}
+.time {
+  color: var(--muted);
+  font-size: 13px;
+}
+.body p {
+  margin: 2px 0 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.replies {
+  margin: 14px 0 0 44px;
+  display: grid;
+  gap: 12px;
+}
+.reply-btn {
+  margin: 10px 0 0 38px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--muted);
+  transition:
+    background 0.12s,
+    color 0.12s,
+    transform 0.06s;
+}
+.reply-btn:hover {
+  background: var(--subtle);
+  color: var(--fg);
+}
+.reply-btn:active {
+  transform: scale(0.96);
+}
+.reply-form {
+  display: flex;
+  gap: 8px;
+  margin: 12px 0 0 44px;
+}
+.reply-form input {
+  background: var(--subtle);
+}
+.reply-form .btn {
+  height: auto;
+}
+.del {
+  margin-left: auto;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  color: var(--muted);
+  font-size: 20px;
+  line-height: 1;
+  opacity: 0;
+  transition:
+    opacity 0.12s,
+    background 0.12s;
+}
+.item:hover .del,
+.del:focus-visible {
+  opacity: 1;
+}
+.del:hover {
+  background: var(--subtle);
+  color: var(--fg);
+}
+.del.busy {
+  opacity: 0.4;
+}
+@media (hover: none) {
+  .del {
+    opacity: 1;
+  }
+}
+.empty {
+  color: var(--muted);
+  text-align: center;
+  padding: 32px 0;
+}
+@media (max-width: 420px) {
+  .replies,
+  .reply-form {
+    margin-left: 0;
+  }
+  .reply-btn {
+    margin-left: -8px;
+  }
+}

@@ -1,0 +1,16 @@
+:root{color-scheme:dark}
+html,body{margin:0;height:100%;background:#000;overflow:hidden;font-family:Inter,system-ui,sans-serif}
+#stage{position:fixed;inset:0;display:grid;place-items:center}
+#film{display:block;background:#000}
+#start{position:fixed;inset:0;display:grid;place-items:center;background:rgba(12,11,10,.55);cursor:pointer;border:0;color:#f8f7f3;font:inherit}
+#start[hidden]{display:none}
+#start .card{display:grid;gap:10px;justify-items:center;text-align:center;max-width:640px;padding:24px}
+#start .btn{display:inline-flex;align-items:center;gap:10px;height:44px;padding:0 20px;border-radius:6px;background:#f8f7f3;color:#0c0b0a;font-weight:550;font-size:15px}
+#title{font:650 34px/1.1 "Inter Tight",Inter,sans-serif;letter-spacing:-.03em}
+#logline{color:#a39e91;font-size:15px;line-height:1.5}
+#wrap{position:fixed;left:0;right:0;bottom:0;padding:14px 16px;background:linear-gradient(transparent,rgba(0,0,0,.6));opacity:0;transition:opacity .2s}
+#wrap.show,#wrap:hover{opacity:1}
+#bar{display:flex;align-items:center;gap:12px;color:#f8f7f3;font:12px "JetBrains Mono",monospace}
+#bar button{background:none;border:1px solid #403d36;color:#f8f7f3;border-radius:6px;height:28px;min-width:32px;cursor:pointer;font:inherit}
+#bar button.off{opacity:.45}
+#scrub{flex:1;accent-color:#f8f7f3}

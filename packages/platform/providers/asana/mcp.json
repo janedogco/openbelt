@@ -1,0 +1,18 @@
+{
+  "id": "asana",
+  "name": "Asana",
+  "about": "Tasks, projects and goals",
+  "url": "https://mcp.asana.com/v2/mcp",
+  "docs": "https://developers.asana.com/docs/using-asanas-mcp-server",
+  "signIn": "oauth",
+  "issuer": "https://app.asana.com",
+  "registration": {
+    "kind": "admin",
+    "registerAt": "https://app.asana.com/0/my-apps"
+  },
+  "scopes": ["default"],
+  "credential": "person",
+  "level": "read",
+  "probed": "2026-10-28",
+  "note": "Register OpenBelt in Asana's developer console as an MCP app."
+}

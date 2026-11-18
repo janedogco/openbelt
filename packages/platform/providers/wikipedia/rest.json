@@ -1,0 +1,23 @@
+{
+  "id": "wikipedia",
+  "name": "Wikipedia",
+  "about": "Encyclopedia articles, summaries and media",
+  "url": "https://en.wikipedia.org/api/rest_v1",
+  "docs": "https://en.wikipedia.org/api/rest_v1/",
+  "signIn": "none",
+  "level": "read",
+  "api": {
+    "kind": "openapi",
+    "spec": "https://en.wikipedia.org/api/rest_v1/?spec",
+    "groups": ["Page content"],
+    "test": {
+      "tool": "get_page_summary_title",
+      "input": {
+        "title": "Pikachu"
+      },
+      "expect": "Pokémon"
+    }
+  },
+  "probed": "2026-10-30",
+  "note": "English Wikipedia. Only reading pages is picked; its transforms and reading lists are left out."
+}

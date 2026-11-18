@@ -1,0 +1,29 @@
+{
+  "maker": "Google",
+  "docs": "https://developers.google.com/workspace/guides/configure-mcp-servers",
+  "signIn": "oauth",
+  "issuer": "https://accounts.google.com",
+  "registration": {
+    "kind": "admin",
+    "registerAt": "https://console.cloud.google.com/apis/credentials"
+  },
+  "credential": "person",
+  "level": "read",
+  "quirks": {
+    "authorize": {
+      "access_type": "offline",
+      "prompt": "consent",
+      "include_granted_scopes": "true"
+    },
+    "sendResource": false,
+    "revokeEndsAllGrants": true
+  },
+  "probed": "2026-10-28",
+  "measured": {
+    "on": "2026-10-28",
+    "accessTokenSeconds": 3600,
+    "refreshRotates": false,
+    "refreshTokenSeconds": 604800,
+    "note": "Measured on Google's authorization server, one app for Gmail, Calendar and Drive. The refresh token lasts 7 days while the app's consent screen is in Testing."
+  }
+}

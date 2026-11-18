@@ -1,0 +1,16 @@
+{
+  "id": "dropbox",
+  "name": "Dropbox",
+  "about": "Files, folders and sharing",
+  "url": "https://mcp.dropbox.com/mcp",
+  "docs": "https://www.dropbox.com/developers",
+  "signIn": "oauth",
+  "issuer": "https://www.dropbox.com",
+  "registration": {
+    "kind": "dcr"
+  },
+  "scopes": ["account_info.read", "files.metadata.read", "files.content.read", "sharing.read"],
+  "credential": "person",
+  "level": "read",
+  "probed": "2026-10-28"
+}

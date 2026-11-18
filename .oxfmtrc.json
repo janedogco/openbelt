@@ -1,0 +1,16 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "printWidth": 100,
+  "semi": false,
+  "ignorePatterns": [
+    "tools/oxlint/anti-slop/**",
+    "**/node_modules/**",
+    "dist/**",
+    ".verify/**",
+    ".references/**",
+    "deploy/grafana/dashboards/**",
+    "brand/film/**",
+    // Third-party libraries a starter ships as published (minified), never edited here.
+    "packages/platform/starters/*/vendor/**"
+  ]
+}

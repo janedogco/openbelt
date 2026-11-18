@@ -1,0 +1,1451 @@
+<!doctype html>
+<!-- AI agent given this address: read /auth.md for how to set up and use OpenBelt for the person you're helping. -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <title>OpenBelt: The open-source tool belt for you and your agents</title>
+    <meta
+      name="description"
+      content="OpenBelt is the open-source tool belt for you and your agents. Build tools with any agent and share them with your team. It hosts them with data and realtime built in, and your agents test each change in a real browser before it goes live."
+    />
+    <meta
+      property="og:title"
+      content="OpenBelt: The open-source tool belt for you and your agents"
+    />
+    <meta property="og:description" content="Bring your tools to any agent." />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="OpenBelt" />
+    <meta property="og:url" content="https://openbelt.com/" />
+    <meta property="og:image" content="https://openbelt.com/brand/logo/social/og.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="OpenBelt: The open-source tool belt for you and your agents"
+    />
+    <meta property="og:video" content="https://openbelt.com/brand/logo/social/og.mp4" />
+    <meta property="og:video:secure_url" content="https://openbelt.com/brand/logo/social/og.mp4" />
+    <meta property="og:video:type" content="video/mp4" />
+    <meta property="og:video:width" content="1200" />
+    <meta property="og:video:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="brand/logo/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="brand/logo/png/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="OpenBelt" />
+    <link rel="stylesheet" href="brand/css/openbelt.css" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preload" as="font" type="font/woff2" crossorigin href="brand/fonts/inter.woff2" />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      crossorigin
+      href="brand/fonts/inter-tight.woff2"
+    />
+    <link rel="alternate" type="text/markdown" href="/auth.md" title="For AI agents" />
+    <script type="speculationrules">
+      {
+        "prefetch": [
+          {
+            "source": "document",
+            "where": { "href_matches": "/_signin" },
+            "eagerness": "moderate"
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <header class="nav">
+      <div class="nav-brand">
+        <a class="logo" href="./" aria-label="OpenBelt"></a><span class="badge">Beta</span>
+      </div>
+      <nav>
+        <a href="#built-in">Built in</a>
+        <a href="#teams">Security</a>
+        <a href="#pricing">Pricing</a>
+        <a href="/_signin">Sign in</a>
+        <a class="nav-cta" href="/_start">Start building</a>
+      </nav>
+    </header>
+    <main>
+      <section class="hero">
+        <div class="marks" aria-hidden="true">
+          <span
+            class="mark"
+            style="
+              --x: max(-380px, -26vw);
+              --y: 8px;
+              --s: 64px;
+              --rot: 6deg;
+              --depth: 0.6;
+              --d: 0.62s;
+              --dur: 8.5s;
+              --dx: 2px;
+              --dy: -8px;
+              --wob: 3deg;
+              --fx: -106px;
+              --fy: -80px;
+            "
+            ><span class="mark-card upright"><img src="assets/logos/linear.svg" alt="" /></span
+          ></span>
+          <span
+            class="mark"
+            style="
+              --x: max(-580px, -39vw);
+              --y: 150px;
+              --s: 88px;
+              --rot: -8deg;
+              --depth: 1.2;
+              --d: 0.38s;
+              --dur: 10.5s;
+              --dx: 4px;
+              --dy: -12px;
+              --wob: -2deg;
+              --fx: -162px;
+              --fy: -40px;
+            "
+            ><span class="mark-card"><img src="assets/logos/gmail.svg" alt="" /></span
+          ></span>
+          <span
+            class="mark low"
+            style="
+              --x: max(-440px, -30vw);
+              --y: calc(100% - 136px);
+              --s: 76px;
+              --rot: 4deg;
+              --depth: 0.9;
+              --d: 0.54s;
+              --dur: 11.5s;
+              --dx: 3px;
+              --dy: -9px;
+              --wob: -3deg;
+              --fx: -123px;
+              --fy: 60px;
+            "
+            ><span class="mark-card"><img src="assets/logos/notion.svg" alt="" /></span
+          ></span>
+          <span
+            class="mark"
+            style="
+              --x: max(-650px, -44vw);
+              --y: 330px;
+              --s: 60px;
+              --rot: -4deg;
+              --depth: 0.5;
+              --d: 0.78s;
+              --dur: 10.2s;
+              --dx: 2px;
+              --dy: -7px;
+              --wob: 2deg;
+              --fx: -182px;
+              --fy: 60px;
+            "
+            ><span class="mark-card"><img src="assets/logos/calendar.svg" alt="" /></span
+          ></span>
+          <span
+            class="mark"
+            style="
+              --x: min(380px, 26vw);
+              --y: 8px;
+              --s: 64px;
+              --rot: -5deg;
+              --depth: 0.6;
+              --d: 0.58s;
+              --dur: 9.8s;
+              --dx: -2px;
+              --dy: -9px;
+              --wob: -3deg;
+              --fx: 106px;
+              --fy: -80px;
+            "
+            ><span class="mark-card"><img src="assets/logos/jira.svg" alt="" /></span
+          ></span>
+          <span
+            class="mark"
+            style="
+              --x: min(580px, 39vw);
+              --y: 150px;
+              --s: 88px;
+              --rot: 7deg;
+              --depth: 1.2;
+              --d: 0.46s;
+              --dur: 9.2s;
+              --dx: -4px;
+              --dy: -10px;
+              --wob: 2deg;
+              --fx: 162px;
+              --fy: -40px;
+            "
+            ><span class="mark-card upright"><img src="assets/logos/github.svg" alt="" /></span
+          ></span>
+          <span
+            class="mark low"
+            style="
+              --x: min(440px, 30vw);
+              --y: calc(100% - 144px);
+              --s: 76px;
+              --rot: -5deg;
+              --depth: 0.9;
+              --d: 0.7s;
+              --dur: 7.8s;
+              --dx: -3px;
+              --dy: -11px;
+              --wob: 3deg;
+              --fx: 123px;
+              --fy: 60px;
+            "
+            ><span class="mark-card"><img src="assets/logos/stripe.svg" alt="" /></span
+          ></span>
+          <span
+            class="mark"
+            style="
+              --x: min(660px, 45vw);
+              --y: 320px;
+              --s: 60px;
+              --rot: 5deg;
+              --depth: 0.5;
+              --d: 0.84s;
+              --dur: 9.6s;
+              --dx: -2px;
+              --dy: -8px;
+              --wob: -2deg;
+              --fx: 185px;
+              --fy: 60px;
+            "
+            ><span class="mark-card"><img src="assets/logos/drive.svg" alt="" /></span
+          ></span>
+        </div>
+        <h1 class="type-display">Bring your tools<br />to any agent</h1>
+        <p class="lede">
+          <span>OpenBelt is the open-source tool belt for you and your agents.</span>
+          <span>Build tools with any agent and share them with your team.</span>
+        </p>
+        <span id="prompt" hidden
+          >Read https://openbelt.com/start.md, then help me build a tool</span
+        >
+        <button class="copy-prompt" type="button" data-copy="prompt">
+          <span class="copy-idle"
+            ><span class="copy-marks" aria-hidden="true"
+              ><i class="claude" style="--mark: url(assets/agents/claude-code.svg)"></i
+              ><img class="openai" src="assets/agents/openai-on-light.svg" alt="" /><img
+                class="cursor"
+                src="assets/agents/cursor-on-light.svg"
+                alt="" /><i class="gemini" style="--mark: url(assets/agents/gemini.svg)"></i
+              ><img class="opencode" src="assets/agents/opencode-on-light.svg" alt="" /></span
+            >Copy prompt</span
+          >
+          <span class="copy-done" aria-hidden="true">Copied</span>
+        </button>
+        <p class="copy-next" aria-live="polite"></p>
+      </section>
+      <section class="stage">
+        <div
+          class="demo linked"
+          aria-label="Ben builds a support app in Codex; the next day Ana changes the same app in Claude Code"
+        >
+          <div class="window agent-window s1">
+            <div class="window-bar">
+              <span class="lights"><i></i><i></i><i></i></span>
+              <span class="who"><img src="assets/agents/openai.svg" alt="" />Codex</span>
+              <span class="by"><span>Ben</span><img src="assets/people/jun.svg" alt="" /></span>
+            </div>
+            <div class="terminal">
+              <div class="t-prompt">
+                <span
+                  ><span class="t-typed">Group open Zendesk tickets by theme</span
+                  ><i class="t-cursor"></i
+                ></span>
+              </div>
+              <div class="t-status">
+                <i class="t-spin"></i
+                ><svg class="icon" aria-hidden="true">
+                  <use href="brand/icons/sprite.svg#check" /></svg
+                ><span class="t-text">Live at acme.openbelt.app/support</span>
+              </div>
+            </div>
+          </div>
+          <div class="window agent-window s2">
+            <div class="window-bar">
+              <span class="lights"><i></i><i></i><i></i></span>
+              <span class="who"><img src="assets/agents/claude-code.svg" alt="" />Claude Code</span>
+              <span class="by"><span>Ana</span><img src="assets/people/ana.svg" alt="" /></span>
+            </div>
+            <div class="terminal">
+              <div class="t-prompt">
+                <span
+                  ><span class="t-typed">Link each theme to its Sentry activity</span
+                  ><i class="t-cursor"></i
+                ></span>
+              </div>
+              <div class="t-status">
+                <i class="t-spin"></i
+                ><svg class="icon" aria-hidden="true">
+                  <use href="brand/icons/sprite.svg#check" /></svg
+                ><span class="t-text">Added Sentry activity to each theme</span>
+              </div>
+            </div>
+          </div>
+          <div class="relay r1" aria-hidden="true">
+            <i></i><i style="--i: 0"></i><i style="--i: 1"></i><i style="--i: 2"></i
+            ><i style="--i: 3"></i><i style="--i: 4"></i><i></i>
+          </div>
+          <div class="relay r2" aria-hidden="true">
+            <i></i><i style="--i: 0"></i><i style="--i: 1"></i><i style="--i: 2"></i
+            ><i style="--i: 3"></i><i style="--i: 4"></i><i></i>
+          </div>
+          <div class="relay rm" aria-hidden="true">
+            <i></i><i style="--i: 0"></i><i style="--i: 1"></i><i style="--i: 2"></i><i></i>
+          </div>
+          <div class="window app-window">
+            <div class="window-bar">
+              <span class="lights"><i></i><i></i><i></i></span>
+              <span class="url"
+                ><svg class="icon" aria-hidden="true">
+                  <use href="brand/icons/sprite.svg#lock" /></svg
+                ><span>acme.openbelt.app/support</span></span
+              >
+            </div>
+            <div class="app">
+              <div class="app-head">
+                <span class="app-icon"
+                  ><svg class="icon" aria-hidden="true">
+                    <use href="brand/icons/sprite.svg#inbox" /></svg
+                ></span>
+                <span class="app-title"
+                  ><b>Support themes</b><small>95 open tickets, today</small></span
+                >
+                <span class="sources">
+                  <span class="source"><img src="assets/logos/zendesk.svg" alt="" />Zendesk</span>
+                  <span class="source sentry"
+                    ><img src="assets/logos/sentry.svg" alt="" />Sentry</span
+                  >
+                </span>
+              </div>
+              <div class="themes">
+                <div class="theme">
+                  <div class="theme-top"><b>Single sign-on</b><span>38 tickets</span></div>
+                  <div class="meter"><i style="--w: 100%"></i></div>
+                  <div class="trace">
+                    <img src="assets/logos/sentry.svg" alt="" /><span>AUTH-3F2</span
+                    ><b>1.2k events</b>
+                  </div>
+                </div>
+                <div class="theme">
+                  <div class="theme-top"><b>Data exports</b><span>27 tickets</span></div>
+                  <div class="meter"><i style="--w: 71%"></i></div>
+                  <div class="trace">
+                    <img src="assets/logos/sentry.svg" alt="" /><span>API-9K1</span
+                    ><b>640 events</b>
+                  </div>
+                </div>
+                <div class="theme">
+                  <div class="theme-top"><b>Billing currencies</b><span>19 tickets</span></div>
+                  <div class="meter"><i style="--w: 50%"></i></div>
+                  <div class="trace">
+                    <img src="assets/logos/sentry.svg" alt="" /><span>BILL-77A</span
+                    ><b>212 events</b>
+                  </div>
+                </div>
+                <div class="theme">
+                  <div class="theme-top"><b>Push notifications</b><span>11 tickets</span></div>
+                  <div class="meter"><i style="--w: 29%"></i></div>
+                  <div class="trace">
+                    <img src="assets/logos/sentry.svg" alt="" /><span>MOB-2C4</span><b>98 events</b>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="story" class="story">
+        <h2>See how it works.</h2>
+        <figure class="film">
+          <div class="film-frame">
+            <!-- The film's source is brand/film/; bun run brand film renders it (brand/AGENTS.md, The story film). -->
+            <video preload="none" playsinline data-poster="assets/story-poster.jpg">
+              <source
+                src="https://media.openbelt.com/story/2026-11-13-clasp-click/openbelt-story-720.mp4"
+                type="video/mp4"
+                media="(max-width: 720px)"
+              />
+              <source
+                src="https://media.openbelt.com/story/2026-11-13-clasp-click/openbelt-story-1080.mp4"
+                type="video/mp4"
+              />
+            </video>
+            <button class="film-play" type="button">
+              <span class="film-icon"
+                ><svg class="icon" aria-hidden="true">
+                  <use href="brand/icons/sprite.svg#play" /></svg
+              ></span>
+              Watch the story<span class="film-time">1:13</span>
+            </button>
+          </div>
+          <div class="film-bar">
+            <button class="film-toggle" type="button" aria-label="Play">
+              <svg class="icon play" aria-hidden="true">
+                <use href="brand/icons/sprite.svg#play" />
+              </svg>
+              <svg class="icon pause" aria-hidden="true">
+                <use href="brand/icons/sprite.svg#pause" />
+              </svg>
+            </button>
+            <span class="film-clock"><span class="film-now">0:00</span> / 1:13</span>
+            <input
+              class="film-seek"
+              type="range"
+              min="0"
+              max="73"
+              step="any"
+              value="0"
+              aria-label="Seek"
+            />
+            <button class="film-mute" type="button" aria-label="Mute">
+              <svg class="icon on" aria-hidden="true">
+                <use href="brand/icons/sprite.svg#volume-2" />
+              </svg>
+              <svg class="icon off" aria-hidden="true">
+                <use href="brand/icons/sprite.svg#volume-x" />
+              </svg>
+            </button>
+            <button class="film-full" type="button" aria-label="Full screen">
+              <svg class="icon" aria-hidden="true">
+                <use href="brand/icons/sprite.svg#maximize" />
+              </svg>
+            </button>
+          </div>
+        </figure>
+      </section>
+      <section class="flow">
+        <div class="text">
+          <h2>Where agents build their tools.</h2>
+          <p class="muted">
+            Every tool your agents make can reach your services, and no agent sees a key.
+          </p>
+        </div>
+        <div
+          class="orbit"
+          role="img"
+          aria-label="Your agents (Claude Code, Codex, Cursor, Gemini CLI) work through OpenBelt: tools, data, functions, jobs and secrets. OpenBelt reaches Gmail, GitHub, Linear, Notion and Stripe."
+        >
+          <svg
+            class="orbit-lines"
+            viewBox="0 0 600 420"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+          >
+            <circle class="ring" cx="300" cy="200" r="168" />
+            <circle class="ring inner" cx="300" cy="200" r="92" />
+            <path class="spoke" d="M159 109L300 200" />
+            <path class="spoke" d="M135 168L300 200" />
+            <path class="spoke" d="M135 232L300 200" />
+            <path class="spoke" d="M159 291L300 200" />
+            <path class="spoke" d="M429 92L300 200" />
+            <path class="spoke" d="M458 143L300 200" />
+            <path class="spoke" d="M468 200L300 200" />
+            <path class="spoke" d="M458 257L300 200" />
+            <path class="spoke" d="M429 308L300 200" />
+            <path class="beam" pathLength="100" style="animation-delay: 0s" d="M159 109L300 200" />
+            <path
+              class="beam"
+              pathLength="100"
+              style="animation-delay: 0.33s"
+              d="M135 168L300 200"
+            />
+            <path
+              class="beam"
+              pathLength="100"
+              style="animation-delay: 0.66s"
+              d="M135 232L300 200"
+            />
+            <path
+              class="beam"
+              pathLength="100"
+              style="animation-delay: 0.99s"
+              d="M159 291L300 200"
+            />
+            <path
+              class="beam"
+              pathLength="100"
+              style="animation-delay: 1.32s"
+              d="M429 92L300 200"
+            />
+            <path
+              class="beam"
+              pathLength="100"
+              style="animation-delay: 1.65s"
+              d="M458 143L300 200"
+            />
+            <path
+              class="beam"
+              pathLength="100"
+              style="animation-delay: 1.98s"
+              d="M468 200L300 200"
+            />
+            <path
+              class="beam"
+              pathLength="100"
+              style="animation-delay: 2.31s"
+              d="M458 257L300 200"
+            />
+            <path
+              class="beam"
+              pathLength="100"
+              style="animation-delay: 2.64s"
+              d="M429 308L300 200"
+            />
+          </svg>
+          <span class="orbit-node" style="left: 26.52%; top: 25.83%"
+            ><img src="assets/agents/claude.svg" alt=""
+          /></span>
+          <span class="orbit-node" style="left: 22.51%; top: 39.99%"
+            ><img src="assets/agents/openai.svg" alt=""
+          /></span>
+          <span class="orbit-node" style="left: 22.51%; top: 55.25%"
+            ><img src="assets/agents/cursor.svg" alt=""
+          /></span>
+          <span class="orbit-node" style="left: 26.52%; top: 69.4%"
+            ><img src="assets/agents/gemini.svg" alt=""
+          /></span>
+          <span class="orbit-node" style="left: 71.45%; top: 21.91%"
+            ><img src="assets/logos/gmail.svg" alt=""
+          /></span>
+          <span class="orbit-node" style="left: 76.31%; top: 33.94%"
+            ><img src="assets/logos/github.svg" alt=""
+          /></span>
+          <span class="orbit-node" style="left: 78%; top: 47.62%"
+            ><img src="assets/logos/linear.svg" alt=""
+          /></span>
+          <span class="orbit-node" style="left: 76.31%; top: 61.3%"
+            ><img src="assets/logos/notion.svg" alt=""
+          /></span>
+          <span class="orbit-node" style="left: 71.45%; top: 73.33%"
+            ><img src="assets/logos/stripe.svg" alt=""
+          /></span>
+          <span class="orbit-piece" style="--start: 0deg"
+            ><span
+              ><svg class="icon"><use href="brand/icons/sprite.svg#layers" /></svg></span
+          ></span>
+          <span class="orbit-piece" style="--start: 72deg"
+            ><span
+              ><svg class="icon"><use href="brand/icons/sprite.svg#database" /></svg></span
+          ></span>
+          <span class="orbit-piece" style="--start: 144deg"
+            ><span
+              ><svg class="icon"><use href="brand/icons/sprite.svg#zap" /></svg></span
+          ></span>
+          <span class="orbit-piece" style="--start: 216deg"
+            ><span
+              ><svg class="icon"><use href="brand/icons/sprite.svg#clock" /></svg></span
+          ></span>
+          <span class="orbit-piece" style="--start: 288deg"
+            ><span
+              ><svg class="icon"><use href="brand/icons/sprite.svg#key-round" /></svg></span
+          ></span>
+          <img class="orbit-core" src="brand/logo/tile-light.svg" alt="OpenBelt" />
+        </div>
+      </section>
+      <section id="connections" class="works">
+        <h2>Connect once. Use it everywhere.</h2>
+        <p class="muted intro">Connect a service once and every agent and tool can use it.</p>
+        <div class="ledger-row">
+          <h3>Agents<small>Any MCP client</small></h3>
+          <div class="marquee" data-direction="left">
+            <ul>
+              <li tabindex="0">
+                <img loading="lazy" src="assets/agents/claude.svg" alt="" /><span>Claude Code</span>
+              </li>
+              <li tabindex="0">
+                <img loading="lazy" src="assets/agents/openai.svg" alt="" /><span>Codex</span>
+              </li>
+              <li tabindex="0">
+                <img loading="lazy" src="assets/agents/opencode.svg" alt="" /><span>OpenCode</span>
+              </li>
+              <li tabindex="0">
+                <img loading="lazy" src="assets/agents/pi.svg" alt="" /><span>Pi</span>
+              </li>
+              <li tabindex="0">
+                <img loading="lazy" src="assets/agents/cursor.svg" alt="" /><span>Cursor</span>
+              </li>
+              <li tabindex="0">
+                <img loading="lazy" src="assets/agents/copilot.svg" alt="" /><span
+                  >GitHub Copilot</span
+                >
+              </li>
+              <li tabindex="0">
+                <img loading="lazy" src="assets/agents/gemini.svg" alt="" /><span>Gemini CLI</span>
+              </li>
+              <li tabindex="0">
+                <img loading="lazy" src="assets/agents/zed.svg" alt="" /><span>Zed</span>
+              </li>
+              <li tabindex="0">
+                <img loading="lazy" src="assets/agents/warp.svg" alt="" /><span>Warp</span>
+              </li>
+              <li tabindex="0">
+                <img loading="lazy" src="assets/agents/amp.svg" alt="" /><span>Amp</span>
+              </li>
+              <li tabindex="0">
+                <img loading="lazy" src="assets/agents/goose.svg" alt="" /><span>Goose</span>
+              </li>
+              <li tabindex="0">
+                <img loading="lazy" src="assets/agents/hermes.svg" alt="" /><span
+                  >Hermes Agent</span
+                >
+              </li>
+              <li tabindex="0">
+                <img loading="lazy" src="assets/agents/openclaw.svg" alt="" /><span>OpenClaw</span>
+              </li>
+              <li tabindex="0">
+                <img loading="lazy" src="assets/agents/devin.png" alt="" /><span>Devin</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="ledger-row">
+          <h3>Connections<small>Any MCP server</small></h3>
+          <div class="marquee" data-direction="right">
+            <ul>
+              <li tabindex="0">
+                <img loading="lazy" src="assets/logos/gmail.svg" alt="" /><span>Gmail</span>
+              </li>
+              <li tabindex="0">
+                <img loading="lazy" src="assets/logos/calendar.svg" alt="" /><span>Calendar</span>
+              </li>
+              <li tabindex="0">
+                <img loading="lazy" src="assets/logos/drive.svg" alt="" /><span>Drive</span>
+              </li>
+              <li tabindex="0">
+                <img loading="lazy" src="assets/logos/sheets.svg" alt="" /><span>Sheets</span>
+              </li>
+              <li tabindex="0">
+                <img loading="lazy" src="assets/logos/github.svg" alt="" /><span>GitHub</span>
+              </li>
+              <li tabindex="0">
+                <img loading="lazy" src="assets/logos/linear.svg" alt="" /><span>Linear</span>
+              </li>
+              <li tabindex="0">
+                <img loading="lazy" src="assets/logos/notion.svg" alt="" /><span>Notion</span>
+              </li>
+              <li tabindex="0">
+                <img loading="lazy" src="assets/logos/jira.svg" alt="" /><span>Jira</span>
+              </li>
+              <li tabindex="0">
+                <img loading="lazy" src="assets/logos/confluence.svg" alt="" /><span
+                  >Confluence</span
+                >
+              </li>
+              <li tabindex="0">
+                <img loading="lazy" src="assets/logos/asana.svg" alt="" /><span>Asana</span>
+              </li>
+              <li tabindex="0">
+                <img loading="lazy" src="assets/logos/dropbox.svg" alt="" /><span>Dropbox</span>
+              </li>
+              <li tabindex="0">
+                <img loading="lazy" src="assets/logos/stripe.svg" alt="" /><span>Stripe</span>
+              </li>
+              <li tabindex="0">
+                <img loading="lazy" src="assets/logos/sentry.svg" alt="" /><span>Sentry</span>
+              </li>
+              <li tabindex="0">
+                <img loading="lazy" src="assets/logos/supabase.svg" alt="" /><span>Supabase</span>
+              </li>
+              <li tabindex="0">
+                <img loading="lazy" src="assets/logos/zendesk.svg" alt="" /><span>Zendesk</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="ledger-row">
+          <h3>Runs on<small>Any Docker host</small></h3>
+          <div class="marquee" data-direction="left">
+            <ul>
+              <li tabindex="0">
+                <img loading="lazy" src="assets/logos/aws.svg" alt="" /><span>AWS</span>
+              </li>
+              <li tabindex="0">
+                <img loading="lazy" src="assets/logos/google-cloud.svg" alt="" /><span
+                  >Google Cloud</span
+                >
+              </li>
+              <li tabindex="0">
+                <img loading="lazy" src="assets/logos/azure.svg" alt="" /><span>Azure</span>
+              </li>
+              <li tabindex="0">
+                <img loading="lazy" src="assets/logos/oracle.svg" alt="" /><span>Oracle Cloud</span>
+              </li>
+              <li tabindex="0">
+                <img loading="lazy" src="assets/logos/digitalocean.svg" alt="" /><span
+                  >DigitalOcean</span
+                >
+              </li>
+              <li tabindex="0">
+                <img loading="lazy" src="assets/logos/hetzner.svg" alt="" /><span>Hetzner</span>
+              </li>
+              <li tabindex="0">
+                <img loading="lazy" src="assets/logos/linode.svg" alt="" /><span>Linode</span>
+              </li>
+              <li tabindex="0">
+                <img loading="lazy" src="assets/logos/vultr.svg" alt="" /><span>Vultr</span>
+              </li>
+              <li tabindex="0">
+                <img loading="lazy" src="assets/logos/ovh.svg" alt="" /><span>OVHcloud</span>
+              </li>
+              <li tabindex="0">
+                <img loading="lazy" src="assets/logos/scaleway.svg" alt="" /><span>Scaleway</span>
+              </li>
+              <li tabindex="0">
+                <img loading="lazy" src="assets/logos/ubuntu.svg" alt="" /><span>Ubuntu</span>
+              </li>
+              <li>
+                <a href="https://www.debian.org/" aria-label="Debian"
+                  ><img loading="lazy" src="assets/logos/debian.svg" alt="" /></a
+                ><span>Debian</span>
+              </li>
+              <li tabindex="0">
+                <img loading="lazy" src="assets/logos/apple.svg" alt="" /><span>Mac</span>
+              </li>
+              <li tabindex="0">
+                <img loading="lazy" src="assets/logos/windows.svg" alt="" /><span>Windows</span>
+              </li>
+              <li>
+                <a href="https://www.proxmox.com/" aria-label="Proxmox"
+                  ><img loading="lazy" src="assets/logos/proxmox.svg" alt="" /></a
+                ><span>Proxmox</span>
+              </li>
+              <li tabindex="0">
+                <img loading="lazy" src="assets/logos/docker.svg" alt="" /><span>Docker</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+      <section id="built-in" class="pieces">
+        <h2>Everything a tool needs.</h2>
+        <p class="muted intro">Nothing to set up. Ask for a feature and your agent wires it in.</p>
+        <div class="grid">
+          <article class="card piece" style="--accent: var(--openbelt-color-success)">
+            <svg class="art" viewBox="0 0 320 160" aria-hidden="true">
+              <rect class="panel" x="16" y="20" width="184" height="120" rx="6" />
+              <path class="head" d="M16 26a6 6 0 0 1 6-6h172a6 6 0 0 1 6 6v18H16z" />
+              <path
+                class="line"
+                d="M16 44h184M16 68h184M16 92h184M16 116h184M70 20v120M150 20v120"
+              />
+              <text x="26" y="36">id</text>
+              <text x="80" y="36">title</text>
+              <text x="160" y="36">done</text>
+              <text x="26" y="60">1</text>
+              <text x="26" y="84">2</text>
+              <text x="26" y="108">3</text>
+              <text x="26" y="132">4</text>
+              <rect class="bar" x="80" y="53" width="56" height="6" rx="3" />
+              <rect class="bar" x="80" y="77" width="40" height="6" rx="3" />
+              <rect class="bar on grow" x="80" y="101" width="62" height="6" rx="3" />
+              <rect class="bar" x="80" y="125" width="34" height="6" rx="3" />
+              <path class="ink" d="M162 56l4 4 7-7M162 80l4 4 7-7M162 128l4 4 7-7" />
+              <circle class="line todo" cx="168" cy="104" r="5" />
+              <path class="ink draw" pathLength="1" d="M162 104l4 4 7-7" />
+              <rect class="panel" x="216" y="20" width="88" height="34" rx="6" />
+              <text x="228" y="41">{ … }</text>
+              <rect class="panel" x="216" y="63" width="88" height="34" rx="6" />
+              <text x="228" y="84">update()</text>
+              <rect class="panel" x="216" y="106" width="88" height="34" rx="6" />
+              <text x="228" y="127">set(id)</text>
+            </svg>
+            <h3>Data</h3>
+            <p class="muted">
+              Every tool gets its own database. Save data, read it back, and use other tools' data
+              too.
+            </p>
+          </article>
+          <article class="card piece" style="--accent: var(--openbelt-color-art-blue)">
+            <svg class="art" viewBox="0 0 320 160" aria-hidden="true">
+              <rect class="panel" x="16" y="16" width="196" height="128" rx="6" />
+              <path class="line" d="M16 36h196" />
+              <circle class="dot" cx="28" cy="26" r="2.5" />
+              <circle class="dot" cx="37" cy="26" r="2.5" />
+              <circle class="dot" cx="46" cy="26" r="2.5" />
+              <g class="drop">
+                <rect class="row on" x="28" y="46" width="172" height="26" rx="4" />
+                <circle class="fill" cx="42" cy="59" r="4" />
+                <rect class="bar strong" x="54" y="56" width="84" height="6" rx="3" />
+                <text class="ink" x="166" y="63">new</text>
+              </g>
+              <g class="push">
+                <rect class="bar" x="54" y="86" width="104" height="6" rx="3" />
+                <rect class="bar" x="54" y="108" width="72" height="6" rx="3" />
+                <rect class="bar" x="54" y="130" width="92" height="6" rx="3" />
+                <circle class="line" cx="42" cy="89" r="4" />
+                <circle class="line" cx="42" cy="111" r="4" />
+                <circle class="line" cx="42" cy="133" r="4" />
+              </g>
+              <path class="panel" d="M252 70v44c0 6 12 10 26 10s26-4 26-10V70" />
+              <ellipse class="panel" cx="278" cy="70" rx="26" ry="10" />
+              <path class="line" d="M252 92c0 6 12 10 26 10s26-4 26-10" />
+              <path class="ink dash" d="M262 58C262 36 240 34 214 50" />
+              <path class="spark ping" pathLength="100" d="M262 58C262 36 240 34 214 50" />
+              <path class="ink" d="M220 44l-6 6 8 2" />
+              <text x="236" y="146">watch()</text>
+            </svg>
+            <h3>Realtime</h3>
+            <p class="muted">
+              Watch a query and the page updates the moment the data changes. No polling.
+            </p>
+          </article>
+          <article class="card piece" style="--accent: var(--openbelt-color-art-violet)">
+            <svg class="art" viewBox="0 0 320 160" aria-hidden="true">
+              <path
+                class="line"
+                d="M92 37C120 37 112 72 128 72M92 123C120 123 112 88 128 88M232 80h-40"
+              />
+              <rect class="panel" x="16" y="20" width="76" height="34" rx="6" />
+              <rect class="line" x="28" y="30" width="18" height="14" rx="2" />
+              <path class="line" d="M28 34h18" />
+              <text x="54" y="41">page</text>
+              <rect class="panel" x="16" y="106" width="76" height="34" rx="6" />
+              <path class="line" d="M29 116h5v5h-5zM38 116h5v5h-5zM29 125h5v5h-5zM38 125h5v5h-5z" />
+              <text x="54" y="127">tool</text>
+              <path class="spark" pathLength="100" d="M92 37C120 37 112 72 128 72" />
+              <path class="spark later" pathLength="100" d="M92 123C120 123 112 88 128 88" />
+              <path class="spark last" pathLength="100" d="M232 80h-40" />
+              <rect class="panel strong beat" x="128" y="52" width="64" height="56" rx="8" />
+              <text class="big" x="148" y="86">fn</text>
+              <rect class="panel" x="232" y="63" width="76" height="34" rx="6" />
+              <path class="line" d="M244 76l5 4-5 4M253 85h7" />
+              <text x="266" y="84">agent</text>
+              <rect class="tag" x="122" y="120" width="76" height="22" rx="11" />
+              <path class="ink" d="M132 131l3 3 6-6" />
+              <text x="146" y="135">input</text>
+            </svg>
+            <h3>Functions</h3>
+            <p class="muted">
+              Server code that pages, other tools and agents can all call, with checked inputs.
+            </p>
+          </article>
+          <article class="card piece" style="--accent: var(--openbelt-color-warning)">
+            <svg class="art" viewBox="0 0 320 160" aria-hidden="true">
+              <circle class="panel" cx="52" cy="58" r="34" />
+              <path class="line" d="M52 28v5M52 83v5M22 58h5M77 58h5" />
+              <path class="ink hand" d="M52 58V40" />
+              <path class="ink" d="M52 58l12 8" />
+              <circle class="fill" cx="52" cy="58" r="2.5" />
+              <text x="104" y="50">every day</text>
+              <text class="ink" x="104" y="70">09:00</text>
+              <rect class="seg on" x="16" y="116" width="30" height="16" rx="3" />
+              <rect class="seg on" x="52" y="116" width="30" height="16" rx="3" />
+              <rect class="seg on" x="88" y="116" width="30" height="16" rx="3" />
+              <rect class="seg on" x="124" y="116" width="30" height="16" rx="3" />
+              <rect class="seg on" x="160" y="116" width="30" height="16" rx="3" />
+              <rect class="seg half fills" x="196" y="116" width="30" height="16" rx="3" />
+              <rect class="seg next" x="232" y="116" width="30" height="16" rx="3" />
+              <rect class="seg" x="268" y="116" width="36" height="16" rx="3" />
+              <text x="16" y="106">import.csv</text>
+              <text x="232" y="106">6 / 8</text>
+              <path class="line dash flow" d="M216 58h88" />
+              <circle class="fill" cx="216" cy="58" r="3" />
+              <circle class="line" cx="260" cy="58" r="3" />
+              <circle class="line" cx="304" cy="58" r="3" />
+              <text x="205" y="80">mon</text>
+              <text x="249" y="80">tue</text>
+              <text x="293" y="80">wed</text>
+            </svg>
+            <h3>Jobs</h3>
+            <p class="muted">Run on a schedule, or later in the background, with nobody waiting.</p>
+          </article>
+          <article class="card piece" style="--accent: var(--openbelt-color-art-teal)">
+            <svg class="art" viewBox="0 0 320 160" aria-hidden="true">
+              <path
+                class="line"
+                d="M104 33C150 33 150 80 196 80M104 80h92M104 127C150 127 150 80 196 80"
+              />
+              <path class="spark" pathLength="100" d="M104 33C150 33 150 80 196 80" />
+              <path class="spark later" pathLength="100" d="M104 80h92" />
+              <path class="spark last" pathLength="100" d="M104 127C150 127 150 80 196 80" />
+              <path class="ink" d="M190 74l6 6-6 6" />
+              <rect class="panel" x="16" y="18" width="88" height="30" rx="15" />
+              <text x="32" y="37">github</text>
+              <rect class="panel" x="16" y="65" width="88" height="30" rx="15" />
+              <text x="32" y="84">stripe</text>
+              <rect class="panel" x="16" y="112" width="88" height="30" rx="15" />
+              <text x="32" y="131">shopify</text>
+              <rect class="panel strong" x="204" y="44" width="100" height="72" rx="8" />
+              <text x="216" y="68">POST /hook</text>
+              <g class="beat">
+                <path class="shield" d="M254 80l-12 4v9c0 8 6 12 12 14 6-2 12-6 12-14v-9z" />
+                <path class="ink" d="M249 94l4 4 7-7" />
+              </g>
+            </svg>
+            <h3>Webhooks</h3>
+            <p class="muted">
+              Take events from GitHub, Stripe or Shopify, with signatures checked.
+            </p>
+          </article>
+          <article class="card piece" style="--accent: var(--openbelt-color-art-coral)">
+            <svg class="art" viewBox="0 0 320 160" aria-hidden="true">
+              <rect class="panel" x="16" y="24" width="132" height="112" rx="6" />
+              <circle class="panel strong" cx="82" cy="62" r="18" />
+              <circle class="line" cx="82" cy="57" r="6" />
+              <path class="line" d="M71 74c2-6 6-8 11-8s9 2 11 8" />
+              <text x="52" y="102">ada@team</text>
+              <text class="ink" x="82" y="122" text-anchor="middle">db.me()</text>
+              <rect class="panel" x="164" y="44" width="140" height="34" rx="6" />
+              <text x="176" y="65">STRIPE_KEY</text>
+              <rect class="panel" x="164" y="86" width="140" height="34" rx="6" />
+              <circle class="fill" cx="180" cy="104" r="2.5" />
+              <circle class="fill" cx="189" cy="104" r="2.5" />
+              <circle class="fill" cx="198" cy="104" r="2.5" />
+              <circle class="fill" cx="207" cy="104" r="2.5" />
+              <circle class="fill typed" cx="216" cy="104" r="2.5" style="--i: 0" />
+              <circle class="fill typed" cx="225" cy="104" r="2.5" style="--i: 1" />
+              <circle class="fill typed" cx="234" cy="104" r="2.5" style="--i: 2" />
+              <circle class="fill typed" cx="243" cy="104" r="2.5" style="--i: 3" />
+              <circle class="fill typed" cx="252" cy="104" r="2.5" style="--i: 4" />
+              <circle class="fill typed" cx="261" cy="104" r="2.5" style="--i: 5" />
+              <rect class="line" x="279" y="101" width="12" height="9" rx="2" />
+              <path class="line" d="M281 101v-3a4 4 0 0 1 8 0v3" />
+            </svg>
+            <h3>Users and secrets</h3>
+            <p class="muted">Know who's using each tool, and call APIs without exposing a key.</p>
+          </article>
+        </div>
+      </section>
+      <section id="teams" class="teams">
+        <h2>Ready for your whole team.</h2>
+        <p class="muted intro">Give every agent access without giving away control.</p>
+        <div class="teams-grid">
+          <div
+            class="ask"
+            role="img"
+            aria-label="An allowed access request: the Support themes app can use your Sentry"
+          >
+            <div class="ask-sheet">
+              <span class="ask-brand"><img src="brand/logo/favicon.svg" alt="" />OpenBelt</span>
+              <div class="ask-pair" aria-hidden="true">
+                <span class="ask-tile"
+                  ><svg class="icon"><use href="brand/icons/sprite.svg#inbox" /></svg
+                ></span>
+                <i></i>
+                <span class="ask-tile"><img src="assets/logos/sentry.svg" alt="" /></span>
+              </div>
+              <h3><b>Support themes</b> can use your Sentry</h3>
+              <ul class="ask-tools">
+                <li><span>list_issues</span><b>Read</b></li>
+                <li><span>get_event</span><b>Read</b></li>
+              </ul>
+              <p class="ask-done">
+                <svg class="icon" aria-hidden="true">
+                  <use href="brand/icons/sprite.svg#circle-check" />
+                </svg>
+                Allowed by Maya · just now
+              </p>
+            </div>
+          </div>
+          <article class="tile">
+            <svg class="tile-art art-keys" viewBox="0 0 280 120" aria-hidden="true">
+              <path class="art-line" d="M64 46h40" />
+              <path class="art-line art-line-ok" d="M176 46h40" />
+              <circle class="art-packet" r="3" cy="46" />
+              <circle class="art-packet art-packet-ok" r="3" cy="46" />
+              <rect class="art-node" x="8" y="18" width="56" height="56" rx="14" />
+              <use
+                class="art-icon-muted"
+                href="brand/icons/sprite.svg#bot"
+                x="24"
+                y="34"
+                width="24"
+                height="24"
+              />
+              <rect class="art-vault" x="104" y="10" width="72" height="72" rx="16" />
+              <use
+                class="art-icon-ok"
+                href="brand/icons/sprite.svg#key-round"
+                x="128"
+                y="22"
+                width="24"
+                height="24"
+              />
+              <text class="art-mono art-muted" x="140" y="66" text-anchor="middle">••••••</text>
+              <rect class="art-node" x="216" y="18" width="56" height="56" rx="14" />
+              <image href="assets/logos/sentry.svg" x="232" y="34" width="24" height="24" />
+              <rect class="art-pill-muted" x="0" y="92" width="72" height="18" rx="9" />
+              <text class="art-mono art-muted" x="36.0" y="104.5" text-anchor="middle">
+                GET /issues
+              </text>
+              <rect class="art-pill-ok" x="98" y="92" width="84" height="18" rx="9" />
+              <text class="art-mono art-ok" x="140.0" y="104.5" text-anchor="middle">+ token</text>
+              <rect class="art-pill-ok" x="214" y="92" width="60" height="18" rx="9" />
+              <text class="art-mono art-ok" x="244.0" y="104.5" text-anchor="middle">200 OK</text>
+            </svg>
+            <h3>Keys stay put</h3>
+            <p class="muted">Agents and apps never see a secret.</p>
+          </article>
+          <article class="tile">
+            <svg class="tile-art art-access" viewBox="0 0 280 120" aria-hidden="true">
+              <image href="assets/logos/sentry.svg" x="142" y="2" width="16" height="16" />
+              <image href="assets/logos/github.svg" x="192" y="2" width="16" height="16" />
+              <image href="assets/logos/stripe.svg" x="242" y="2" width="16" height="16" />
+              <rect class="art-node" x="0" y="26" width="280" height="28" rx="8" />
+              <use
+                class="art-icon-muted"
+                href="brand/icons/sprite.svg#users"
+                x="10"
+                y="33"
+                width="14"
+                height="14"
+              />
+              <text class="art-text" x="32" y="44">Support</text>
+              <rect class="art-pill-ok" x="129" y="31" width="42" height="18" rx="9" />
+              <text class="art-mono art-ok" x="150" y="43.5" text-anchor="middle">Read</text>
+              <path class="art-none" d="M195 40h10" />
+              <rect class="art-pill-ok" x="229" y="31" width="42" height="18" rx="9" />
+              <text class="art-mono art-ok" x="250" y="43.5" text-anchor="middle">Read</text>
+              <rect class="art-node" x="0" y="58" width="280" height="28" rx="8" />
+              <use
+                class="art-icon-muted"
+                href="brand/icons/sprite.svg#users"
+                x="10"
+                y="65"
+                width="14"
+                height="14"
+              />
+              <text class="art-text" x="32" y="76">Engineering</text>
+              <rect class="art-pill-warn" x="129" y="63" width="42" height="18" rx="9" />
+              <text class="art-mono art-warn" x="150" y="75.5" text-anchor="middle">Write</text>
+              <rect class="art-pill-warn" x="179" y="63" width="42" height="18" rx="9" />
+              <text class="art-mono art-warn" x="200" y="75.5" text-anchor="middle">Write</text>
+              <path class="art-none" d="M245 72h10" />
+              <rect class="art-node" x="0" y="90" width="280" height="28" rx="8" />
+              <use
+                class="art-icon-muted"
+                href="brand/icons/sprite.svg#users"
+                x="10"
+                y="97"
+                width="14"
+                height="14"
+              />
+              <text class="art-text" x="32" y="108">Finance</text>
+              <path class="art-none" d="M145 104h10" />
+              <path class="art-none" d="M195 104h10" />
+              <rect class="art-pill-warn" x="229" y="95" width="42" height="18" rx="9" />
+              <text class="art-mono art-warn" x="250" y="107.5" text-anchor="middle">Write</text>
+            </svg>
+            <h3>Access you set</h3>
+            <p class="muted">Roles, groups and access per connection.</p>
+          </article>
+          <article class="tile">
+            <svg class="tile-art art-log" viewBox="0 0 280 120" aria-hidden="true">
+              <g class="art-new">
+                <rect class="art-node" x="0" y="2" width="280" height="34" rx="9" />
+                <circle class="art-av-ok" cx="20" cy="19" r="10" />
+                <use
+                  class="art-icon-ok"
+                  href="brand/icons/sprite.svg#bot"
+                  x="13"
+                  y="12"
+                  width="14"
+                  height="14"
+                />
+                <text class="art-text" x="38" y="23">
+                  <tspan class="art-strong">Support themes</tspan>
+                  <tspan class="art-muted">ran list_issues</tspan>
+                </text>
+                <text class="art-mono art-muted" x="268" y="23" text-anchor="end">now</text>
+              </g>
+              <g>
+                <rect class="art-node" x="0" y="42" width="280" height="34" rx="9" />
+                <circle class="art-av-hi" cx="20" cy="59" r="10" />
+                <text class="art-av-text art-hi" x="20" y="62.5" text-anchor="middle">M</text>
+                <text class="art-text" x="38" y="63">
+                  <tspan class="art-strong">Maya</tspan>
+                  <tspan class="art-muted">allowed Support themes</tspan>
+                </text>
+                <text class="art-mono art-muted" x="268" y="63" text-anchor="end">2m</text>
+              </g>
+              <g>
+                <rect class="art-node" x="0" y="82" width="280" height="34" rx="9" />
+                <circle class="art-av-warn" cx="20" cy="99" r="10" />
+                <text class="art-av-text art-warn" x="20" y="102.5" text-anchor="middle">S</text>
+                <text class="art-text" x="38" y="103">
+                  <tspan class="art-strong">Sam</tspan>
+                  <tspan class="art-muted">added Sentry</tspan>
+                </text>
+                <text class="art-mono art-muted" x="268" y="103" text-anchor="end">1h</text>
+              </g>
+            </svg>
+            <h3>Activity log</h3>
+            <p class="muted">See who did what, and when.</p>
+          </article>
+          <article class="tile">
+            <svg class="tile-art art-scim" viewBox="0 0 280 120" aria-hidden="true">
+              <path class="art-line art-flow" d="M64 60 C92 60 92 19 120 19" />
+              <path class="art-line art-flow" d="M64 60 C92 60 92 59 120 59" />
+              <path class="art-line art-flow" d="M64 60 C92 60 92 99 120 99" />
+              <rect class="art-node" x="8" y="32" width="56" height="56" rx="14" />
+              <use
+                class="art-icon-muted"
+                href="brand/icons/sprite.svg#users"
+                x="24"
+                y="48"
+                width="24"
+                height="24"
+              />
+              <g>
+                <rect class="art-node" x="120" y="2" width="160" height="34" rx="9" />
+                <circle class="art-av-ok" cx="140" cy="19" r="10" />
+                <text class="art-av-text art-ok" x="140" y="22.5" text-anchor="middle">A</text>
+                <text class="art-text" x="158" y="23">Ana Lee</text>
+              </g>
+              <rect class="art-pill-ok" x="218" y="10" width="54" height="18" rx="9" />
+              <text class="art-mono art-ok" x="245.0" y="22.5" text-anchor="middle">Added</text>
+              <g>
+                <rect class="art-node" x="120" y="42" width="160" height="34" rx="9" />
+                <circle class="art-av-hi" cx="140" cy="59" r="10" />
+                <text class="art-av-text art-hi" x="140" y="62.5" text-anchor="middle">B</text>
+                <text class="art-text" x="158" y="63">Ben Ortiz</text>
+              </g>
+              <rect class="art-pill-muted" x="218" y="50" width="54" height="18" rx="9" />
+              <text class="art-mono art-muted" x="245.0" y="62.5" text-anchor="middle">Synced</text>
+              <g class="art-gone">
+                <rect class="art-node" x="120" y="82" width="160" height="34" rx="9" />
+                <circle class="art-av-faint" cx="140" cy="99" r="10" />
+                <text class="art-av-text art-muted" x="140" y="102.5" text-anchor="middle">L</text>
+                <text class="art-text art-strike" x="158" y="103">Leo Park</text>
+              </g>
+              <rect class="art-pill-err" x="218" y="90" width="54" height="18" rx="9" />
+              <text class="art-mono art-err" x="245.0" y="102.5" text-anchor="middle">Removed</text>
+            </svg>
+            <h3>SCIM</h3>
+            <p class="muted">Sync people from your identity provider.</p>
+          </article>
+        </div>
+      </section>
+      <section id="pricing" class="pricing">
+        <h2>Pricing</h2>
+        <div class="compare" role="table" aria-label="Plans">
+          <div class="compare-head" role="row">
+            <span role="columnheader"></span>
+            <div role="columnheader">
+              <b>Personal</b><span class="compare-price">Free</span
+              ><a class="btn btn-primary" href="/_start">Start building</a>
+            </div>
+            <div role="columnheader">
+              <b>Enterprise</b><span class="compare-price">Custom</span
+              ><a
+                class="btn btn-secondary"
+                href="mailto:hello@openbelt.com?subject=OpenBelt%20Enterprise"
+                >Let's talk</a
+              >
+            </div>
+          </div>
+          <div class="compare-row" role="row">
+            <span role="rowheader">Apps, data, jobs and webhooks</span
+            ><span role="cell"
+              ><svg class="icon" aria-label="Included">
+                <use href="brand/icons/sprite.svg#check" /></svg></span
+            ><span role="cell"
+              ><svg class="icon" aria-label="Included">
+                <use href="brand/icons/sprite.svg#check" /></svg
+            ></span>
+          </div>
+          <div class="compare-row" role="row">
+            <span role="rowheader">Any agent over MCP</span
+            ><span role="cell"
+              ><svg class="icon" aria-label="Included">
+                <use href="brand/icons/sprite.svg#check" /></svg></span
+            ><span role="cell"
+              ><svg class="icon" aria-label="Included">
+                <use href="brand/icons/sprite.svg#check" /></svg
+            ></span>
+          </div>
+          <div class="compare-row" role="row">
+            <span role="rowheader">Hosted or self-hosted</span
+            ><span role="cell"
+              ><svg class="icon" aria-label="Included">
+                <use href="brand/icons/sprite.svg#check" /></svg></span
+            ><span role="cell"
+              ><svg class="icon" aria-label="Included">
+                <use href="brand/icons/sprite.svg#check" /></svg
+            ></span>
+          </div>
+          <div class="compare-row" role="row">
+            <span role="rowheader">Roles and groups</span
+            ><span role="cell"
+              ><svg class="icon" aria-label="Included">
+                <use href="brand/icons/sprite.svg#check" /></svg></span
+            ><span role="cell"
+              ><svg class="icon" aria-label="Included">
+                <use href="brand/icons/sprite.svg#check" /></svg
+            ></span>
+          </div>
+          <div class="compare-row" role="row">
+            <span role="rowheader">SCIM</span
+            ><span role="cell"><span class="none" aria-label="Not included">–</span></span
+            ><span role="cell"
+              ><svg class="icon" aria-label="Included">
+                <use href="brand/icons/sprite.svg#check" /></svg
+            ></span>
+          </div>
+          <div class="compare-row" role="row">
+            <span role="rowheader">Access per connection</span
+            ><span role="cell"><span class="none" aria-label="Not included">–</span></span
+            ><span role="cell"
+              ><svg class="icon" aria-label="Included">
+                <use href="brand/icons/sprite.svg#check" /></svg
+            ></span>
+          </div>
+          <div class="compare-row" role="row">
+            <span role="rowheader">Activity log</span
+            ><span role="cell"><span class="none" aria-label="Not included">–</span></span
+            ><span role="cell"
+              ><svg class="icon" aria-label="Included">
+                <use href="brand/icons/sprite.svg#check" /></svg
+            ></span>
+          </div>
+          <div class="compare-row" role="row">
+            <span role="rowheader">Support and help setting up</span
+            ><span role="cell"><span class="none" aria-label="Not included">–</span></span
+            ><span role="cell"
+              ><svg class="icon" aria-label="Included">
+                <use href="brand/icons/sprite.svg#check" /></svg
+            ></span>
+          </div>
+        </div>
+      </section>
+      <section id="faq" class="faq">
+        <h2>Questions</h2>
+        <div class="faq-list">
+          <details name="faq">
+            <summary>
+              What is OpenBelt?<svg class="icon" aria-hidden="true">
+                <use href="brand/icons/sprite.svg#arrow-right" />
+              </svg>
+            </summary>
+            <p class="muted">
+              The open-source tool belt for you and your agents. Each tool gets a URL, data, jobs
+              and sign-in, and works from any agent.
+            </p>
+          </details>
+          <details name="faq">
+            <summary>
+              Which agents work with it?<svg class="icon" aria-hidden="true">
+                <use href="brand/icons/sprite.svg#arrow-right" />
+              </svg>
+            </summary>
+            <p class="muted">
+              Any MCP client: Claude Code, Codex, Cursor, Gemini CLI, opencode and more. Add one
+              address and sign in.
+            </p>
+          </details>
+          <details name="faq">
+            <summary>
+              Do my agents see my keys?<svg class="icon" aria-hidden="true">
+                <use href="brand/icons/sprite.svg#arrow-right" />
+              </svg>
+            </summary>
+            <p class="muted">
+              No. You connect a service once. Apps and agents call it through OpenBelt and never get
+              the key.
+            </p>
+          </details>
+          <details name="faq">
+            <summary>
+              Where do my apps run?<svg class="icon" aria-hidden="true">
+                <use href="brand/icons/sprite.svg#arrow-right" />
+              </svg>
+            </summary>
+            <p class="muted">
+              On OpenBelt, at your-workspace.openbelt.app/your-app. Or on your own server with
+              Docker.
+            </p>
+          </details>
+          <details name="faq">
+            <summary>
+              How does my agent know an app works?<svg class="icon" aria-hidden="true">
+                <use href="brand/icons/sprite.svg#arrow-right" />
+              </svg>
+            </summary>
+            <p class="muted">
+              It opens each change in a real browser and checks it before it goes live.
+            </p>
+          </details>
+          <details name="faq">
+            <summary>
+              Can I take my apps with me?<svg class="icon" aria-hidden="true">
+                <use href="brand/icons/sprite.svg#arrow-right" />
+              </svg>
+            </summary>
+            <p class="muted">
+              Yes. An app is a folder of plain files your agent can read and export.
+            </p>
+          </details>
+        </div>
+      </section>
+      <section class="final">
+        <div class="marks" aria-hidden="true">
+          <span
+            class="mark"
+            style="
+              --x: -440px;
+              --y: 36px;
+              --s: 72px;
+              --rot: -8deg;
+              --depth: 0.8;
+              --d: 0.5s;
+              --dur: 9s;
+              --dx: 3px;
+              --dy: -9px;
+              --wob: -3deg;
+              --fx: -120px;
+              --fy: 40px;
+            "
+            ><span class="mark-card"><img src="assets/agents/claude-code.svg" alt="" /></span
+          ></span>
+          <span
+            class="mark"
+            style="
+              --x: -400px;
+              --y: 190px;
+              --s: 56px;
+              --rot: 6deg;
+              --depth: 0.8;
+              --d: 0.62s;
+              --dur: 9.6s;
+              --dx: 3px;
+              --dy: -9px;
+              --wob: 3deg;
+              --fx: -120px;
+              --fy: 40px;
+            "
+            ><span class="mark-card"><img src="assets/agents/openai.svg" alt="" /></span
+          ></span>
+          <span
+            class="mark"
+            style="
+              --x: -460px;
+              --y: 320px;
+              --s: 52px;
+              --rot: -4deg;
+              --depth: 0.8;
+              --d: 0.78s;
+              --dur: 10.2s;
+              --dx: 3px;
+              --dy: -9px;
+              --wob: -3deg;
+              --fx: -120px;
+              --fy: 40px;
+            "
+            ><span class="mark-card"><img src="assets/agents/cursor.svg" alt="" /></span
+          ></span>
+          <span
+            class="mark"
+            style="
+              --x: 440px;
+              --y: 36px;
+              --s: 68px;
+              --rot: 7deg;
+              --depth: 0.8;
+              --d: 0.46s;
+              --dur: 10.8s;
+              --dx: -3px;
+              --dy: -9px;
+              --wob: 3deg;
+              --fx: 120px;
+              --fy: 40px;
+            "
+            ><span class="mark-card"><img src="assets/agents/gemini.svg" alt="" /></span
+          ></span>
+          <span
+            class="mark"
+            style="
+              --x: 410px;
+              --y: 196px;
+              --s: 56px;
+              --rot: -6deg;
+              --depth: 0.8;
+              --d: 0.7s;
+              --dur: 11.4s;
+              --dx: -3px;
+              --dy: -9px;
+              --wob: -3deg;
+              --fx: 120px;
+              --fy: 40px;
+            "
+            ><span class="mark-card"><img src="assets/agents/opencode.svg" alt="" /></span
+          ></span>
+          <span
+            class="mark"
+            style="
+              --x: 460px;
+              --y: 320px;
+              --s: 52px;
+              --rot: 5deg;
+              --depth: 0.8;
+              --d: 0.84s;
+              --dur: 12s;
+              --dx: -3px;
+              --dy: -9px;
+              --wob: 3deg;
+              --fx: 120px;
+              --fy: 40px;
+            "
+            ><span class="mark-card"><img src="assets/agents/copilot.svg" alt="" /></span
+          ></span>
+        </div>
+        <h2 class="type-display">Build it once.<br />Use it from any&nbsp;agent.</h2>
+        <div class="actions">
+          <button class="btn btn-primary btn-lg" type="button" data-copy="prompt">
+            <span class="copy-states"
+              ><span
+                ><svg class="icon" aria-hidden="true">
+                  <use href="brand/icons/sprite.svg#copy" /></svg
+                >Copy prompt</span
+              ><span class="done" aria-hidden="true"
+                ><svg class="icon"><use href="brand/icons/sprite.svg#check" /></svg>Copied</span
+              ></span
+            >
+          </button>
+          <a class="btn btn-secondary btn-lg" href="/_start">Start building</a>
+        </div>
+      </section>
+    </main>
+    <footer class="foot">
+      <div class="foot-inner">
+        <div class="foot-brand">
+          <a class="logo" href="./" aria-label="OpenBelt"></a>
+          <span class="muted">Bring your tools to any agent.</span>
+        </div>
+        <nav aria-label="Product">
+          <h2>Product</h2>
+          <ul>
+            <li><a href="#connections">Connections</a></li>
+            <li><a href="#built-in">Built in</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+            <li><a href="#faq">Questions</a></li>
+          </ul>
+        </nav>
+        <nav aria-label="For agents">
+          <h2>For agents</h2>
+          <ul>
+            <li><a href="/start.md">start.md</a></li>
+            <li><a href="/auth.md">auth.md</a></li>
+            <li><a href="/llms.txt">llms.txt</a></li>
+          </ul>
+        </nav>
+        <nav aria-label="Account">
+          <h2>Account</h2>
+          <ul>
+            <li><a href="/_start">Start building</a></li>
+            <li><a href="/_signin">Sign in</a></li>
+            <li><a href="/privacy">Privacy</a></li>
+          </ul>
+        </nav>
+      </div>
+    </footer>
+    <script type="module" src="site.js"></script>
+  </body>
+</html>

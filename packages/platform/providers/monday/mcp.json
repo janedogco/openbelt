@@ -1,0 +1,16 @@
+{
+  "id": "monday",
+  "name": "monday.com",
+  "about": "Boards, items and updates",
+  "url": "https://mcp.monday.com/mcp",
+  "docs": "https://developer.monday.com/apps/docs/mondaycom-mcp-integration",
+  "signIn": "oauth",
+  "issuer": "https://auth.monday.com/mcp",
+  "registration": {
+    "kind": "dcr"
+  },
+  "scopes": [],
+  "credential": "person",
+  "level": "read",
+  "probed": "2026-10-28"
+}

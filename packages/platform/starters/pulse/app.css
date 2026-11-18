@@ -1,0 +1,128 @@
+#about {
+  margin: -8px 0 20px;
+  color: var(--muted);
+  font-size: 15px;
+}
+#about a {
+  color: var(--fg);
+  text-decoration: underline;
+  text-decoration-color: var(--line);
+  text-underline-offset: 3px;
+  transition: text-decoration-color 0.12s;
+}
+#about a:hover {
+  text-decoration-color: currentColor;
+}
+#stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 28px;
+}
+.stat {
+  display: block;
+  padding: 14px;
+  border-radius: var(--radius);
+  background: var(--card);
+  color: inherit;
+  text-decoration: none;
+  transition:
+    background 0.12s,
+    transform 0.06s;
+}
+.stat:hover {
+  background: var(--subtle);
+}
+.stat:active {
+  transform: scale(0.98);
+}
+.stat .name {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+}
+.stat .num {
+  font-size: 32px;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-top: 8px;
+  font-variant-numeric: tabular-nums;
+}
+.stat .sub {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+.dot {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+h2 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--muted);
+  margin: 0 0 10px;
+}
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2px;
+  background: var(--card);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+li a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  color: inherit;
+  text-decoration: none;
+  transition: background 0.12s;
+}
+li a:hover {
+  background: var(--subtle);
+}
+li .text {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+li .when {
+  flex: none;
+  color: var(--muted);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+li.empty {
+  padding: 24px;
+  color: var(--muted);
+  text-align: center;
+}
+@media (max-width: 560px) {
+  #stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 420px) {
+  #stats {
+    gap: 6px;
+  }
+  .stat {
+    padding: 12px 10px;
+  }
+  .stat .num {
+    font-size: 26px;
+  }
+}

@@ -1,0 +1,99 @@
+# A server's front, one for every stage on it (scripts/deploy.ts copies this to ~/openbelt-front/compose.yaml): Caddy on ports 80
+# and 443, sending each stage's hosts to its platform's port (caddy/stages/<stage>.caddy, one per stage, written by its deploys), and a
+# helper beside it (scripts/deploy/front.ts) that says which names get a certificate on demand and, on a tailnet, who each request
+# is from. docs/running.md, "Production".
+
+x-logging: &logs
+  driver: json-file
+  options:
+    max-size: 50m
+    max-file: "5"
+
+services:
+  caddy:
+    # Caddy with the Cloudflare DNS module (deploy/caddy.Dockerfile, built on the server by the first deploy that needs it): a
+    # wildcard certificate for a stage that nothing public can reach, such as one on a tailnet (OPENBELT_TLS=dns).
+    image: openbelt-caddy:2.10.2-cf0.2.4
+    network_mode: host
+    env_file: caddy.env
+    volumes:
+      # Caddyfile and stages/: a directory, not files, so a file replaced whole is what Caddy reads on its next reload.
+      - ./caddy:/etc/caddy:ro
+      # Each stage's marketing pages, at its bare host (www/ in the repository).
+      - ./www:/srv/www:ro
+      - caddy-data:/data
+    restart: unless-stopped
+    logging: *logs
+
+  front:
+    # The platform's image, for its node_modules: the one a deploy ran when front.ts last changed (FRONT_IMAGE in .env).
+    image: ${FRONT_IMAGE:?set FRONT_IMAGE}
+    network_mode: host
+    command: ["bun", "/app/packages/platform/front/front.ts"]
+    volumes:
+      # front.ts and stages/ (a file per stage: its host and port), under the platform's package so it finds node_modules.
+      - ./front:/app/packages/platform/front:ro
+      # Who a tailnet request is from (tailscaled's local API, read only). A server off a tailnet has no such socket: the mount
+      # is then an empty directory, and nobody is signed in by it.
+      - /var/run/tailscale:/var/run/tailscale:ro
+    restart: unless-stopped
+    logging: *logs
+
+  # Grafana with Tempo, Loki and Prometheus in one container (the telemetry profile, started by a deploy with
+  # OPENBELT_TELEMETRY=grafana), and Caddy serves Grafana at grafana.<host> behind the stage's sign-in. Grafana believes the
+  # Tailscale-User-Login header that sign-in sets (its auth proxy) and has no login form, basic auth or anonymous access; only
+  # Caddy, on this machine, reaches its port. It is on a network of its own: no stage's platform reaches Grafana, Tempo, Loki or
+  # Prometheus, only the otlp proxy below. Traces and logs are kept 7 days, metrics 15.
+  telemetry:
+    image: grafana/otel-lgtm:0.39.0
+    profiles: [telemetry]
+    env_file: telemetry.env
+    environment:
+      GF_AUTH_ANONYMOUS_ENABLED: "false"
+      GF_AUTH_DISABLE_LOGIN_FORM: "true"
+      GF_AUTH_BASIC_ENABLED: "false"
+      GF_AUTH_PROXY_ENABLED: "true"
+      GF_AUTH_PROXY_HEADER_NAME: Tailscale-User-Login
+      GF_AUTH_PROXY_HEADER_PROPERTY: username
+      GF_AUTH_PROXY_AUTO_SIGN_UP: "true"
+      GF_USERS_AUTO_ASSIGN_WORKSPACE_ROLE: Admin
+      TEMPO_EXTRA_ARGS: -backend-worker.compaction.block-retention=168h -backend-scheduler.provider.work.compaction.block-retention=168h
+      LOKI_EXTRA_ARGS: -compactor.retention-enabled=true -store.retention=168h -compactor.delete-request-store=filesystem
+    networks:
+      telemetry-backend:
+        aliases: [telemetry]
+    ports:
+      - "127.0.0.1:1398:3000"
+    volumes:
+      - telemetry-data:/data
+      # OpenBelt's dashboards (deploy/grafana/, copied here by each deploy): the folder Grafana reads every 30 s, and its provider.
+      - ./grafana:/otel-lgtm/openbelt:ro
+      - ./grafana/provisioning.yaml:/otel-lgtm/grafana/conf/provisioning/dashboards/openbelt.yaml:ro
+    mem_limit: 2g
+    restart: unless-stopped
+    logging: *logs
+
+  # What the stages reach on the openbelt-telemetry network: http://otlp:4318, OTLP only, passed on to the telemetry container.
+  otlp:
+    image: caddy:2.10.2
+    profiles: [telemetry]
+    command: ["caddy", "reverse-proxy", "--from", ":4318", "--to", "telemetry:4318"]
+    networks:
+      telemetry:
+        aliases: [otlp]
+      telemetry-backend: {}
+    mem_limit: 128m
+    restart: unless-stopped
+    logging: *logs
+
+networks:
+  # Shared with each stage's platform (deploy/compose.server.yaml); a deploy creates it. Only the otlp proxy is on it.
+  telemetry:
+    name: openbelt-telemetry
+    external: true
+  # Grafana's own, between the telemetry container and the otlp proxy.
+  telemetry-backend: {}
+
+volumes:
+  caddy-data:
+  telemetry-data:

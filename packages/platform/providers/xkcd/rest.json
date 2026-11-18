@@ -1,0 +1,32 @@
+{
+  "id": "xkcd",
+  "name": "xkcd",
+  "about": "Comics, with their titles and transcripts",
+  "url": "https://xkcd.com",
+  "docs": "https://xkcd.com/json.html",
+  "signIn": "none",
+  "level": "read",
+  "api": {
+    "kind": "openapi",
+    "spec": "https://api.apis.guru/v2/specs/xkcd.com/1.0.0/openapi.json",
+    "fixes": [
+      {
+        "tool": "get_info_0_json",
+        "rename": "latest_comic"
+      },
+      {
+        "tool": "get_comicId_info_0_json",
+        "rename": "comic"
+      }
+    ],
+    "test": {
+      "tool": "comic",
+      "input": {
+        "comicId": 353
+      },
+      "expect": "Python"
+    }
+  },
+  "probed": "2026-10-30",
+  "note": "Its spec says http://xkcd.com: OpenBelt calls https."
+}

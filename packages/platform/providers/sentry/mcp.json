@@ -1,0 +1,16 @@
+{
+  "id": "sentry",
+  "name": "Sentry",
+  "about": "Errors, issues and releases",
+  "url": "https://mcp.sentry.dev/mcp",
+  "docs": "https://docs.sentry.io/product/sentry-mcp/",
+  "signIn": "oauth",
+  "issuer": "https://mcp.sentry.dev",
+  "registration": {
+    "kind": "dcr"
+  },
+  "scopes": ["org:read"],
+  "credential": "person",
+  "level": "read",
+  "probed": "2026-10-28"
+}

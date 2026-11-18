@@ -1,0 +1,62 @@
+# HTTPS with sign-in in front of every workspace and app host (deploy/signin/compose.yaml; docs/viewers.md, "Sign-in on a public host").
+# oauth2-proxy signs people in with the workspace's OIDC provider; this proxy asks it about each request, and on the way to OpenBelt
+# says who it is (Tailscale-User-Login and -Name, which OpenBelt reads under OPENBELT_SIGNIN=tailscale) and that it is the front door
+# (x-openbelt-front-door, OPENBELT_FRONT_DOOR_SECRET): OpenBelt believes those headers from nothing else.
+{
+	on_demand_tls {
+		ask http://openbelt:{$OPENBELT_PORT:1337}/_tls/ask
+	}
+}
+
+(openbelt) {
+	reverse_proxy openbelt:{$OPENBELT_PORT:1337} {
+		header_up X-OpenBelt-Front-Door {$OPENBELT_FRONT_DOOR_SECRET}
+	}
+}
+
+https:// {
+	tls {$OPENBELT_TLS:} {
+		on_demand
+	}
+
+	# Nobody but this proxy says who is viewing.
+	request_header -Tailscale-User-Login
+	request_header -Tailscale-User-Name
+
+	# What carries its own credentials (an API token, a webhook's signature, an OAuth client's) goes straight through.
+	@own path /favicon.ico /favicon.svg /mcp /mcp/* /_admin/* /_health /_tls/ask /scim/v2 /scim/v2/* /_hook/* /_preview/*/_hook/* /.well-known/oauth-protected-resource /.well-known/oauth-protected-resource/mcp /.well-known/oauth-authorization-server /_oauth/token /_oauth/register /_oauth/revoke /_oauth/clients/*
+
+	handle /oauth2/* {
+		reverse_proxy oauth2-proxy:4180
+	}
+
+	handle @own {
+		import openbelt
+	}
+
+	handle {
+		forward_auth oauth2-proxy:4180 {
+			uri /oauth2/auth
+			copy_headers X-Auth-Request-Email>Tailscale-User-Login X-Auth-Request-Name>Tailscale-User-Name
+
+			@out status 401
+			handle_response @out {
+				redir * https://{host}/oauth2/start?rd=https://{host}{uri} 302
+			}
+		}
+		import openbelt
+	}
+}
+
+# check_app's browser (OPENBELT_CHECK_DOOR=caddy:8443 sends OpenBelt's own names here), on this compose network alone: nothing on
+# 8443 is published. Nobody is signed in; check_app's own session cookie says who its test people are.
+https://:8443 {
+	tls {$OPENBELT_TLS:} {
+		on_demand
+	}
+
+	request_header -Tailscale-User-Login
+	request_header -Tailscale-User-Name
+
+	import openbelt
+}

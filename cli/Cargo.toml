@@ -1,0 +1,22 @@
+[package]
+name = "openbelt"
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+
+[dependencies]
+base64 = "0.23.1"
+cliclack = "0.5.7"
+jsonc-parser = { version = "0.34.0", features = ["cst", "serde"] }
+serde = { version = "1.0.229", features = ["derive"] }
+serde_json = { version = "1.0.154", features = ["preserve_order"] }
+sha2 = "0.11.1"
+toml_edit = "0.25.19"
+ureq = { version = "3.5.1", features = ["json"] }
+
+[profile.release]
+opt-level = "z"
+lto = true
+codegen-units = 1
+strip = true
+panic = "abort"

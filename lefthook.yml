@@ -1,0 +1,45 @@
+# Only what the commands print, and failures: no banner or summary box on every hook (post-checkout
+# runs on every checkout, even of one file, and agents read all of it).
+output:
+  - execution_out
+  - failure
+
+# Pre-commit stays fast (staged files only). Pre-push runs the full fence in seconds; bun run
+# verify runs in CI (.github/workflows/ci.yml): a PR's picks, and on main all of them
+# (prod waits for those).
+pre-commit:
+  piped: true
+  jobs:
+    # First: a key never reaches a commit (.gitleaks.toml allows the verify checks' made-up ones).
+    - name: secrets
+      run: |
+        command -v gitleaks >/dev/null || { echo "gitleaks is missing (brew install gitleaks)"; exit 1; }
+        gitleaks git --pre-commit --staged --redact --verbose --no-banner --ignore-gitleaks-allow .
+    - name: format
+      glob: "*.{ts,tsx,js,mjs,cjs,json,jsonc,md,yml,yaml,html,css}"
+      run: bun x oxfmt --no-error-on-unmatched-pattern {staged_files}
+      stage_fixed: true
+    - name: lint
+      glob: "*.{ts,tsx,js,mjs,cjs}"
+      run: bun x oxlint --type-aware --fix {staged_files}
+      stage_fixed: true
+    - name: typecheck
+      glob: "*.{ts,tsx}"
+      run: bun run typecheck
+    - name: guard
+      run: bun scripts/guard.ts
+    - name: deadcode
+      run: bun run deadcode
+
+pre-push:
+  piped: true
+  jobs:
+    - name: check
+      run: bun run check
+
+# A new worktree (git worktree add, claude --worktree, a subagent's worktree) is a fresh checkout:
+# install its dependencies, which Bun links from its cache in a few seconds.
+post-checkout:
+  jobs:
+    - name: install
+      run: test -d node_modules || bun install --frozen-lockfile

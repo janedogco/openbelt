@@ -1,0 +1,14 @@
+{
+  "id": "google-docs-api",
+  "name": "Google Docs API",
+  "about": "Documents, their text and structure",
+  "url": "https://docs.googleapis.com",
+  "docs": "https://developers.google.com/workspace/docs/api/how-tos/overview",
+  "scopes": ["https://www.googleapis.com/auth/documents.readonly"],
+  "api": {
+    "kind": "openapi",
+    "spec": "https://www.googleapis.com/discovery/v1/apis/docs/v1/rest"
+  },
+  "note": "Reaches any document the person can open, by its ID (the part of its link after /d/). Set everyone's level to all, and the first change asks Google for that.",
+  "probed": "2026-10-31"
+}

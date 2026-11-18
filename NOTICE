@@ -1,0 +1,21 @@
+OpenBelt
+Copyright (c) 2026 Joe Dang
+
+This product includes software and artwork from third parties, each under its own license:
+
+- tools/oxlint/anti-slop: anti-slop, Copyright (c) 2026 Dillon Mulroy. MIT License
+  (tools/oxlint/anti-slop/LICENSE, upstream in UPSTREAM.md).
+- tools/oxlint/anti-slop/vendor/eslint-stylistic: ESLint Stylistic, Copyright OpenJS Foundation
+  and other contributors, and ESLint Stylistic contributors. MIT License (its LICENSE).
+- brand/icons, www/brand/icons: Lucide, Copyright (c) 2026 Lucide Icons and Contributors.
+  ISC License (LICENSE-lucide.txt).
+- brand/fonts, www/brand/fonts, brand/film: Inter, Inter Tight, JetBrains Mono and Geist.
+  SIL Open Font License 1.1 (OFL.txt in each folder).
+- packages/platform/starters/cut/vendor/mediabunny.js: Mediabunny 1.64.0, Copyright (c) Vanilagy and
+  contributors. Mozilla Public License 2.0; unmodified, its source at https://github.com/Vanilagy/mediabunny.
+- packages/platform/starters/cut/vendor/gifenc.js: gifenc 1.0.3, Copyright (c) 2021 Matt DesLauriers. MIT License.
+- packages/platform/starters/cut/js/ui.js: icon paths from Lucide, Copyright (c) 2026 Lucide Icons and Contributors.
+  ISC License (brand/icons/LICENSE-lucide.txt).
+- www/assets: other companies' logos, used to identify compatible agents and services. They are
+  their owners' trademarks and are not licensed under OpenBelt's MIT License. www/assets/README.md
+  records each one's source.

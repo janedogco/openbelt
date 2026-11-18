@@ -1,0 +1,96 @@
+# OpenBelt on one machine: the platform, every Durable Object's data a SQLite file on its volume. docs/running.md says what each
+# setting is.
+#
+#   OPENBELT_ADMIN_TOKEN=$(openssl rand -hex 24) OPENBELT_SECRETS_KEY=$(openssl rand -hex 32) docker compose up -d
+
+# Each service's output, kept by Docker in rotated files (docker compose logs reads them): at most 5 x 50 MB.
+x-logging: &logs
+  driver: json-file
+  options:
+    max-size: 50m
+    max-file: "5"
+
+services:
+  openbelt:
+    build: .
+    environment:
+      OPENBELT_PORT: ${OPENBELT_PORT:-1337}
+      OPENBELT_NAMESPACE: ${OPENBELT_NAMESPACE:-openbelt}
+      OPENBELT_HOST: ${OPENBELT_HOST:-localhost}
+      OPENBELT_BASE_HOST: ${OPENBELT_BASE_HOST:-}
+      OPENBELT_DEFAULT_WORKSPACE: ${OPENBELT_DEFAULT_WORKSPACE:-acme}
+      OPENBELT_ADMIN_TOKEN: ${OPENBELT_ADMIN_TOKEN:?set OPENBELT_ADMIN_TOKEN}
+      OPENBELT_SECRETS_KEY: ${OPENBELT_SECRETS_KEY:?set OPENBELT_SECRETS_KEY}
+      OPENBELT_SIGNIN: ${OPENBELT_SIGNIN:-tailscale}
+      # Platform processes under the container's supervisor, on one port: "auto" is one per 2 CPUs, at most 4 (docs/running.md).
+      OPENBELT_PROCESSES: ${OPENBELT_PROCESSES:-auto}
+      OPENBELT_SANDBOX_IDLE_MB: ${OPENBELT_SANDBOX_IDLE_MB:-128}
+      # Each object's SQLite, on the volume: a backup is bun run data backup, in the container (docs/running.md, "Backups").
+      OPENBELT_DB_THREADS: ${OPENBELT_DB_THREADS:-4}
+      OPENBELT_DB_TRACE: ${OPENBELT_DB_TRACE:-sampled}
+      OPENBELT_DATA: /data
+      # Spans and log lines also to an OpenTelemetry backend (docs/running.md, "Keeping traces and logs"): the telemetry profile's
+      # Grafana is http://telemetry:4318; a hosted one takes its endpoint and OTEL_EXPORTER_OTLP_HEADERS. Empty: none.
+      OTEL_EXPORTER_OTLP_ENDPOINT: ${OTEL_EXPORTER_OTLP_ENDPOINT:-}
+      OTEL_EXPORTER_OTLP_HEADERS: ${OTEL_EXPORTER_OTLP_HEADERS:-}
+      OTEL_EXPORTER_OTLP_PROTOCOL: ${OTEL_EXPORTER_OTLP_PROTOCOL:-}
+      OTEL_SERVICE_NAME: ${OTEL_SERVICE_NAME:-}
+      OTEL_RESOURCE_ATTRIBUTES: ${OTEL_RESOURCE_ATTRIBUTES:-}
+    # The same port inside and out: check_app's browser opens the apps at the address everyone else uses, from inside the container.
+    # Behind the tls profile's proxy, OPENBELT_BIND=127.0.0.1 keeps this port off the network: everyone comes in through HTTPS.
+    ports:
+      - "${OPENBELT_BIND:-127.0.0.1}:${OPENBELT_PORT:-1337}:${OPENBELT_PORT:-1337}"
+    volumes:
+      - openbelt-data:/data
+    # Bun would be the first process, and doesn't reap check_app's Chrome children: tini does.
+    init: true
+    # The platform, its sandboxes and check_app's browsers together: a runaway among them is stopped here, not by the machine
+    # running out. Raise it on a bigger machine.
+    mem_limit: ${OPENBELT_MEMORY_LIMIT:-4g}
+    # Docker's default seccomp profile, and user namespaces: check_app's Chrome runs as its own user inside its own sandbox, which needs
+    # them (runtime/browser.ts; docs/running.md, "check_app's browser"). Without it Chrome runs without its sandbox, still as its user.
+    security_opt:
+      - seccomp=./deploy/seccomp.json
+    restart: unless-stopped
+    # It stops within about 22 s (runtime/shutdown.ts); a kill before then is a crash (docs/running.md, "Stopping and crashes").
+    stop_grace_period: 30s
+    logging: *logs
+
+  # HTTPS in front (docker compose --profile tls up -d): deploy/Caddyfile. Point OPENBELT_HOST, a wildcard DNS record
+  # (*.OPENBELT_HOST) and OPENBELT_BASE_HOST if it is set at this machine; certificates are issued per name on first visit, for OpenBelt's own names only.
+  caddy:
+    image: caddy:2.10.2
+    profiles: [tls]
+    depends_on: [openbelt]
+    environment:
+      OPENBELT_PORT: ${OPENBELT_PORT:-1337}
+      OPENBELT_TLS: ${OPENBELT_TLS:-}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+    restart: unless-stopped
+
+  # Grafana with Tempo, Loki and Prometheus, one container (docker compose --profile telemetry up -d, with
+  # OTEL_EXPORTER_OTLP_ENDPOINT=http://telemetry:4318): Grafana on GRAFANA_PORT (default 3000), only on this machine, with OpenBelt's
+  # dashboards (deploy/grafana/, bun run grafana build). OTLP is on OTLP_PORT (default 4318) here too, for bun run dev:
+  # OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4318 bun run dev.
+  telemetry:
+    image: grafana/otel-lgtm:0.39.0
+    profiles: [telemetry]
+    ports:
+      - "127.0.0.1:${GRAFANA_PORT:-3000}:3000"
+      - "127.0.0.1:${OTLP_PORT:-4318}:4318"
+    volumes:
+      - telemetry-data:/data
+      - ./deploy/grafana:/otel-lgtm/openbelt:ro
+      - ./deploy/grafana/provisioning.yaml:/otel-lgtm/grafana/conf/provisioning/dashboards/openbelt.yaml:ro
+    restart: unless-stopped
+    logging: *logs
+
+volumes:
+  openbelt-data:
+  caddy-data:
+  telemetry-data:

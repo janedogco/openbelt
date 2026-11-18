@@ -1,0 +1,15 @@
+# Grafana's provider for OpenBelt's dashboards (deploy/grafana/dashboards/, built by bun run grafana build from
+# scripts/grafana/dashboards.ts). The server's front and compose's telemetry profile mount it into grafana/otel-lgtm. Grafana reads
+# the folder every 30 s; a dashboard changed in its UI can't be saved over the file: change it in code.
+apiVersion: 1
+
+providers:
+  - name: openbelt
+    folder: OpenBelt
+    type: file
+    disableDeletion: false
+    allowUiUpdates: false
+    updateIntervalSeconds: 30
+    options:
+      path: /otel-lgtm/openbelt/dashboards
+      foldersFromFilesStructure: false

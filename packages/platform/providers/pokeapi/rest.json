@@ -1,0 +1,22 @@
+{
+  "id": "pokeapi",
+  "name": "PokeAPI",
+  "about": "Pokémon, their moves, types and items",
+  "url": "https://pokeapi.co",
+  "docs": "https://pokeapi.co/docs/v2",
+  "signIn": "none",
+  "level": "read",
+  "api": {
+    "kind": "openapi",
+    "spec": "https://raw.githubusercontent.com/PokeAPI/pokeapi/master/openapi.yml",
+    "test": {
+      "tool": "pokemon_retrieve",
+      "input": {
+        "id": "pikachu"
+      },
+      "expect": "\"name\":\"pikachu\""
+    }
+  },
+  "probed": "2026-10-30",
+  "note": "One Pokémon is about 300 KB: ask for fields (name, types.type.name, sprites.front_default)."
+}

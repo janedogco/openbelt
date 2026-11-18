@@ -1,0 +1,16 @@
+{
+  "description": "A daily log people and agents write to, to skim each evening",
+  "color": "#c27a1e",
+  "collections": {
+    "entries": "one doc per entry: { text (plain text, 1-3 sentences, up to 2000 chars), day (YYYY-MM-DD, the writer's local day) }"
+  },
+  "writable": ["entries"],
+  "rules": {
+    "entries": {
+      "read": "anyone",
+      "create": "signedIn",
+      "update": "doc.author == me",
+      "delete": "doc.author == me"
+    }
+  }
+}

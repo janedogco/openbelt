@@ -1,0 +1,101 @@
+#compose {
+  margin-bottom: 28px;
+}
+#compose textarea {
+  resize: vertical;
+  min-height: 84px;
+  display: block;
+}
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+section {
+  margin-bottom: 28px;
+}
+h2 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--muted);
+  margin: 0 0 10px;
+}
+.entries {
+  display: grid;
+  gap: 8px;
+}
+article {
+  display: flex;
+  gap: 12px;
+  padding: 14px;
+  background: var(--card);
+  border-radius: var(--radius);
+}
+.avatar {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-weight: 600;
+  font-size: 14px;
+}
+.body {
+  flex: 1;
+  min-width: 0;
+}
+.head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 24px;
+}
+.head b {
+  font-weight: 600;
+  font-size: 15px;
+}
+.time {
+  color: var(--muted);
+  font-size: 13px;
+}
+.body p {
+  margin: 4px 0 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.del {
+  margin-left: auto;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  color: var(--muted);
+  font-size: 20px;
+  line-height: 1;
+  opacity: 0;
+  transition:
+    opacity 0.12s,
+    background 0.12s;
+}
+article:hover .del,
+.del:focus-visible {
+  opacity: 1;
+}
+.del:hover {
+  background: var(--subtle);
+  color: var(--fg);
+}
+.del.busy {
+  opacity: 0.4;
+}
+@media (hover: none) {
+  .del {
+    opacity: 1;
+  }
+}
+.empty {
+  color: var(--muted);
+  text-align: center;
+  padding: 32px 0;
+}
